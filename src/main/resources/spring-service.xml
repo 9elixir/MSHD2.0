@@ -34,6 +34,16 @@
         <property name="mapper" ref="unified_codeMapper"/>
     </bean>
 
+    <bean id="CodeInfoServiceImpl" class="com.qiu.service.CodeInfoServiceImpl">
+        <property name="CarrierMapper" ref="carrier_code_infoMapper"/>
+        <property name="DisasterMapper" ref="disaster_code_infoMapper"/>
+        <property name="GeoMapper" ref="geo_code_infoMapper"/>
+        <property name="SourceMapper" ref="source_code_infoMapper"/>
+        <property name="imageMapper" ref="imageTableMapper"/>
+        <property name="imageRelationMapper" ref="unified_code_Image_RelationMapper"/>
+    </bean>
+
+
     <!--3.声明式事务配置-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 注入数据库连接池 -->

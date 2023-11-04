@@ -17,6 +17,8 @@
         <mapper class="com.qiu.Mapper.geo_code_infoMapper"/>
         <mapper class="com.qiu.Mapper.source_code_infoMapper"/>
         <mapper class="com.qiu.Mapper.unified_codeMapper"/>
+        <mapper class="com.qiu.Mapper.imageTableMapper"/>
+        <mapper class="com.qiu.Mapper.unified_code_Image_RelationMapper"/>
     </mappers>
 
 </configuration>

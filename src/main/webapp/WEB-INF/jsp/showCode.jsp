@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>Show Unified Codes</h1>
-
+${abc}
 <!-- Add your search form here -->
 <table border="1">
     <tr>
@@ -20,6 +20,7 @@
         <th>Carrier Code</th>
         <th>Disaster Code</th>
         <th>Description</th>
+        <th>详情</th>th>
     </tr>
 
     </tr>
@@ -33,8 +34,10 @@
         <td><%= code.getCarrierCode() %></td>
         <td><%= code.getDisasterCode() %></td>
         <td><%= code.getDescription() %></td>
+        <td><a href="${pageContext.request.contextPath}/code/<%=code.getCodingId()%>">查看详情</a></td>
     </tr>
     <% } %>
 </table>
+<a href="${pageContext.request.contextPath}/displayImage">显示第8个code的图片</a>
 </body>
 </html>
