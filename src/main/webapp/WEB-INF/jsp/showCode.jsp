@@ -20,6 +20,7 @@
         <th>Carrier Code</th>
         <th>Disaster Code</th>
         <th>Description</th>
+        <th>详情</th>th>
     </tr>
 
     </tr>
@@ -33,6 +34,7 @@
         <td><%= code.getCarrierCode() %></td>
         <td><%= code.getDisasterCode() %></td>
         <td><%= code.getDescription() %></td>
+        <td><a href="${pageContext.request.contextPath}/code/<%=code.getCodingId()%>">查看详情</a></td>
     </tr>
     <% } %>
 </table>
