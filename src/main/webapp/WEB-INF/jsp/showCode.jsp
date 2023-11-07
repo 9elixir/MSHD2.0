@@ -9,8 +9,12 @@
 </head>
 <body>
 <h1>Show Unified Codes</h1>
-${abc}
 <!-- Add your search form here -->
+<form  method="post">
+    <label for="Code">查询Code：</label>
+    <input type="text" id="Code" name="Code" />
+    <input type="submit" value="Code" />
+</form>
 <table border="1">
     <tr>
         <th>Coding ID</th>
@@ -20,10 +24,9 @@ ${abc}
         <th>Carrier Code</th>
         <th>Disaster Code</th>
         <th>Description</th>
-        <th>详情</th>th>
+        <th>详情</th>
     </tr>
 
-    </tr>
     <% List<unified_code> unifiedCodes = (List<unified_code>) request.getAttribute("unifiedCodes");
     for (unified_code code : unifiedCodes) { %>
     <tr>
@@ -38,6 +41,5 @@ ${abc}
     </tr>
     <% } %>
 </table>
-<a href="${pageContext.request.contextPath}/displayImage">显示第8个code的图片</a>
 </body>
 </html>

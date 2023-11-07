@@ -29,4 +29,6 @@ public interface UnifiedCodeService {
     int updateByPrimaryKey(unified_code record);
 
     List<unified_code> getAllUnifiedCodes();
+
+    List<unified_code> queryUnifiedCodes(String queryCode);
 }

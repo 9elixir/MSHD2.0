@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -39,11 +37,21 @@ public class ShowCodeController {
         List<unified_code> unifiedCodes = unifiedCodeService.getAllUnifiedCodes();
 
         model.addAttribute("unifiedCodes", unifiedCodes);
-        model.addAttribute("abc",123);
 
         // Return the name of the JSP page to render
         return "showCode";
     }
+
+    @PostMapping("/showCodes")
+    public String queryCodes(Model model, @RequestParam("Code") String queryCode) {
+        // Handle the query here
+        List<unified_code> queryResult = unifiedCodeService.queryUnifiedCodes(queryCode);
+
+        model.addAttribute("unifiedCodes", queryResult);
+
+        return "showCode";
+    }
+
 
 
     public static String convertTimeCodeToChineseDescription(String timeCode) {
@@ -79,24 +87,26 @@ public class ShowCodeController {
         return "codeDetails"; // 这里的 "codeDetails" 是你要展示信息的 JSP 页面
     }
 
-    @RequestMapping("/displayImage")
-    public String displayImage(Model model) throws IOException {
-        //获取id为8的code
-        unified_code code = unifiedCodeService.selectByPrimaryKey(8);
-        //计算有多少张图片
-        int num = codeInfoService.countImageOfUnifiedCode(code);
-        //获取所有关系
+    @RequestMapping("/displayImage/{id}")
+    public String displayImage(@PathVariable Integer id,Model model) throws IOException {
+        //获取对应id的code
+        unified_code code = unifiedCodeService.selectByPrimaryKey(id);
+        //获取所有关系，每个关系内部有一张图片
         List<unified_code_Image_Relation> Relations = codeInfoService.getAllImageRelationByUnifiedCode(code);
-        //只有一张图片
-        unified_code_Image_Relation relation = Relations.get(0);
-        byte[] imageBytes = codeInfoService.selectImageByImageRelation(relation);
+        //循环得到每一张图片
+        List<String> base64ImageList = new ArrayList<>();
+        for (unified_code_Image_Relation relation:Relations){
+            //获取图片流
+            byte[] imageBytes = codeInfoService.selectImageByImageRelation(relation);
+            // 对图片进行Base64编码
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+            // 写入到List里面
+            base64ImageList.add(base64Image);
+        }
 
-// 对图片进行Base64编码
-        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-// 将Base64编码后的图片数据存储到模型
-        model.addAttribute("base64Image", base64Image);
+        // 将Base64编码后的图片数据存储到模型
+        model.addAttribute("base64ImageList", base64ImageList);
 
-        //如果有多张图片，应该遍历，然后提供一个List数组，在jsp里面应该循环显示这个list数组
         return "imagePage";
     }
 }

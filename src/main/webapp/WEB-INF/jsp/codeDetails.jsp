@@ -32,5 +32,6 @@
     <td>${DisasterCode.getSubCategory()}:${DisasterCode.getDisasterIndicators()}的情况是${code.getDescription()}</td>
   </tr>
 </table>
+<a href="${pageContext.request.contextPath}/displayImage/${code.getCodingId()}">显示code里面的图片</a>
 </body>
 </html>

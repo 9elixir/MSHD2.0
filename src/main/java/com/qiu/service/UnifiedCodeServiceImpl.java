@@ -7,6 +7,7 @@ import com.qiu.service.UnifiedCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -79,4 +80,41 @@ public class UnifiedCodeServiceImpl implements UnifiedCodeService {
         // 在这里调用 Mapper 的方法来获取所有数据
         return mapper.selectByExample(null); // 使用 null 作为条件获取全部数据
     }
+
+    public List<unified_code> queryUnifiedCodes(String queryCode) {
+        unified_codeExample example = new unified_codeExample();
+        unified_codeExample.Criteria criteria = example.createCriteria();
+
+        if (queryCode != null) {
+            String geoCode = queryCode.substring(0, Math.min(queryCode.length(), 12));
+            String timeCode = queryCode.length() >= 26 ? queryCode.substring(12, Math.min(queryCode.length(), 26)) : null;
+            String sourceCode = queryCode.length() >= 29 ? queryCode.substring(26, Math.min(queryCode.length(), 29)) : null;
+            String carrierCode = queryCode.length() >= 30 ? queryCode.substring(29, Math.min(queryCode.length(), 30)) : null;
+            String disasterCode = queryCode.length() >= 36 ? queryCode.substring(30, Math.min(queryCode.length(), 36)) : null;
+
+            if (geoCode != null) {
+                criteria.andGeoCodeLike("%" + geoCode + "%");
+            }
+            if (timeCode != null) {
+                criteria.andTimeCodeLike("%" + timeCode + "%");
+            }
+            if (sourceCode != null) {
+                criteria.andSourceCodeLike("%" + sourceCode + "%");
+            }
+            if (carrierCode != null) {
+                criteria.andCarrierCodeLike("%" + carrierCode + "%");
+            }
+            if (disasterCode != null) {
+                criteria.andDisasterCodeLike("%" + disasterCode + "%");
+            }
+
+            return mapper.selectByExample(example);
+        } else {
+            // 处理错误情况
+            System.err.println("queryCode 为空");
+            return getAllUnifiedCodes(); // 或者返回适当的空结果
+        }
+    }
+
+
 }
