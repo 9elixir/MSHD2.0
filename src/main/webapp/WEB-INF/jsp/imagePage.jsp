@@ -9,7 +9,8 @@
 <h1>Image Display Page</h1>
 <% List<String> base64ImageList = (List<String>) request.getAttribute("base64ImageList");%>
 <%    for (int i=0;i<base64ImageList.size();i++) { %>
-<img src="data:image/jpg;base64,${base64ImageList.get(i)}" alt="Image" />
+<%String s = base64ImageList.get(i);%>
+<img src="data:image/jpg;base64,<%=s%>" alt="Image" />
 <% } %>
 </body>
 </html>

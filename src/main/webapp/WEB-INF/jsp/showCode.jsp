@@ -104,41 +104,6 @@
     </style>
 </head>
 <body>
-<<<<<<< Updated upstream
-<h1>Show Unified Codes</h1>
-<!-- Add your search form here -->
-<form  method="post">
-    <label for="Code">查询Code：</label>
-    <input type="text" id="Code" name="Code" />
-    <input type="submit" value="Code" />
-</form>
-<table border="1">
-    <tr>
-        <th>Coding ID</th>
-        <th>Geo Code</th>
-        <th>Time Code</th>
-        <th>Source Code</th>
-        <th>Carrier Code</th>
-        <th>Disaster Code</th>
-        <th>Description</th>
-        <th>详情</th>
-    </tr>
-
-    <% List<unified_code> unifiedCodes = (List<unified_code>) request.getAttribute("unifiedCodes");
-    for (unified_code code : unifiedCodes) { %>
-    <tr>
-        <td><%= code.getCodingId() %></td>
-        <td><%= code.getGeoCode() %></td>
-        <td><%= code.getTimeCode() %></td>
-        <td><%= code.getSourceCode() %></td>
-        <td><%= code.getCarrierCode() %></td>
-        <td><%= code.getDisasterCode() %></td>
-        <td><%= code.getDescription() %></td>
-        <td><a href="${pageContext.request.contextPath}/code/<%=code.getCodingId()%>">查看详情</a></td>
-    </tr>
-    <% } %>
-</table>
-=======
 <div id="app" data-v-app>
     <div class="header" data-v-f7e66bd1>
         <div class="logo" data-v-f7e66bd1>多源异构灾情管理系统</div>
@@ -151,15 +116,16 @@
             <li>帮助</li>
         </ul>
     </div>
-
     <div class="container">
         <div class="headline">
             灾情显示
         </div>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search by code...">
-            <button onclick="searchByCode()">Search</button>
-        </div>
+        <form  method="post">
+            <label for="Code">查询Code：</label>
+            <input type="text" id="Code" name="Code" />
+            <input type="submit" value="Code" />
+        </form>
+
         <table class="table" id="tableBody">
             <tr>
                 <th>Coding ID</th>
@@ -187,45 +153,8 @@
             <% } %>
         </table>
     </div>
-
 </div>
-<script>
 
-    function searchByCode() {
-        var input = document.getElementById("searchInput").value;
 
-        // 发送AJAX请求到服务器
-        fetch('/search?code=' + input)
-            .then(response => response.json())
-            .then(data => {
-                // 更新表格内容
-                updateTable(data);
-            })
-            .catch(error => console.error(error));
-    }
-    function updateTable(data) {
-        var tableBody = document.querySelector("#tableBody");
-        tableBody.innerHTML = ""; // 清空表格内容
-
-        // 逐个添加行数据
-        data.forEach(code => {
-            var row = document.createElement("tr");
-            row.innerHTML = `
-      <td>${code.codingId}</td>
-      <td>${code.geoCode}</td>
-      <td>${code.timeCode}</td>
-      <td>${code.sourceCode}</td>
-      <td>${code.carrierCode}</td>
-      <td>${code.disasterCode}</td>
-      <td>${code.description}</td>
-      <td><a href="${pageContext.request.contextPath}/code/${code.codingId}">查看详情</a></td>
-    `;
-            tableBody.appendChild(row);
-        });
-    }
-
-</script>
-
->>>>>>> Stashed changes
 </body>
 </html>
