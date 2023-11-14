@@ -10,6 +10,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Show Unified Codes</title>
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=Ef5a4qjXI9uzk9bfMmG0ZfGmrsWsnxgh">
+  </script>
   <style>
     .header{
       background-color:#242f42 ;
@@ -104,8 +106,14 @@
       vertical-align: middle; /* 将单元格内容垂直居中 */
       border: 1px solid #000; /* 设置单元格边框样式和颜色*/
     }
-
+    body, html,#allmap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+    }
   </style>
+
 </head>
 <body>
 <div id="app" data-v-app>
@@ -148,13 +156,28 @@
     </table>
 
     <div>
-      <div><a href="${pageContext.request.contextPath}/displayImage/${code.getCodingId()}">显示code里面的图片</a></div>
-      <div><p style="font-weight: bold;">视频</p></div>
-      <div><p style="font-weight: bold;">地图</p></div>
+      <div><p style="font-weight: bold;">图片</p><a href="${pageContext.request.contextPath}/displayImage/${code.getCodingId()}">显示code里面的图片</a></div>
+      <div><p style="font-weight: bold;">视频</p><a href="${pageContext.request.contextPath}/displayVideo/${code.getCodingId()}">显示code里面的视频</a></div>
+      <div><p style="font-weight: bold;">地图</p><p>${code.getGeoCode().toString()}</p>
+        <div id="Mapcontainer" style="margin-top:30px;width:400px;height:250px;overflow:hidden;"><div id="allmap"></div></div>
+      </div>
       <div><p style="font-weight: bold;">所有文件</p></div>
     </div>
   </div>
 </div>
+
 </body>
 </html>
 
+<script type="text/javascript">
+  var map = new BMapGL.Map("allmap",{
+            enableRotate: false,
+            enableTilt: false
+          }
+  );
+  var point = new BMapGL.Point(${Longtitude}, ${Latitude});
+  map.centerAndZoom(point, 15);
+  map.enableScrollWheelZoom(true);
+  var marker = new BMapGL.Marker(point);
+  map.addOverlay(marker);
+</script>

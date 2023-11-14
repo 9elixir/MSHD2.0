@@ -1,5 +1,7 @@
 package com.qiu.controller.lyq;
 
+import com.qiu.Rook.MapGetter;
+import com.qiu.Rook.MapData;
 import com.qiu.pojo.*;
 import com.qiu.service.CodeInfoService;
 import com.qiu.service.UnifiedCodeService;
@@ -83,6 +85,11 @@ public class ShowCodeController {
         model.addAttribute("Time",convertTimeCodeToChineseDescription(code.getTimeCode()));
         model.addAttribute("SourceCode",SourceCode);
 
+        MapGetter mapGetter=new MapGetter();
+        //以下为地图部分
+        MapData mapdata=mapGetter.getBaiduMap(GeoCode.getProvince()+GeoCode.getCity()+GeoCode.getCounty()+GeoCode.getTown()+GeoCode.getVillage());
+        model.addAttribute("Longtitude",mapdata.Longtitude);
+        model.addAttribute("Latitude",mapdata.Latitude);
         // 返回显示 Code 信息的 JSP 页面
         return "codeDetails"; // 这里的 "codeDetails" 是你要展示信息的 JSP 页面
     }
