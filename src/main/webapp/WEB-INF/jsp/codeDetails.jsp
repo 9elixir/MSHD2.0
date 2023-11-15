@@ -35,14 +35,15 @@
       height:700px;
       color: #ccccc1;
     }
-    .container{
-      display:flex;
+    .container {
+      display: flex;
       flex-direction: column;
-      justify-content:flex-start;
-      align-items:flex-start;
-      padding:0 0;
-      height:732px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding: 0 0;
+      height: 600px; /* 修改为适当的高度 */
       background-color: #eeecec;
+      overflow-y: auto; /* 添加垂直滚动条 */
     }
     .headline{
       margin-top:10px;
@@ -129,13 +130,8 @@
     </ul>
   </div>
   <div class="container">
-    <form method="post">
-      <label for="Code">查询Code：</label>
-      <input type="text" id="Code" name="Code" />
-      <input type="submit" value="Code" />
-    </form>
 
-    <h1>Code Details</h1>
+    <h1>灾情码详情</h1>
     <table border="1">
       <tr>
         <th>全部灾情码</th>
