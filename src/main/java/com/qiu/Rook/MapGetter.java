@@ -31,7 +31,7 @@ public class MapGetter {
         params.put("ak", AK);
         //params.put("callback", "showLocation");
         try {
-            requestGetAK(URL, params);
+            requestGetPos(URL, params);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -47,7 +47,8 @@ public class MapGetter {
      * 您的IP白名单中的IP非公网IP，请设置为公网IP，否则将请求失败
      * 请在IP地址为的计算发起请求，否则将请求失败
      */
-    public void requestGetAK(String strUrl, Map<String, String> param) throws Exception {
+    //
+    private void requestGetPos(String strUrl, Map<String, String> param) throws Exception {
         if (strUrl == null || strUrl.length() <= 0 || param == null || param.size() <= 0) {
             return;
         }
