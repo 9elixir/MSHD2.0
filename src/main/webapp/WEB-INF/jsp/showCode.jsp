@@ -32,7 +32,6 @@
         .container{
             display:flex;
             flex-direction: column;
-            justify-content:center;
             align-items:center;
             padding:0 0;
             height:732px;
@@ -46,26 +45,26 @@
             border: 1px solid #d3d3d3;
 
         }
+
         .search-container{
             width:500px;
-            height:160px;
-            line-height:200px;
+            height:100px;
+            line-height:90px;
         }
-        .search-container input{
-            flex:1;
-            height:50px;
-            line-height:50px;
-            box-sizing:border-box;
-            outline:none;
-            border:#000000;
-            border-top-lift-radius: 25px;
-            border-botton-lift-radius: 25px;
-            padding:0 20px;
-            transition:all .3s;
+
+        #Code {
+            flex: 1;
+            height: 30px;
+            box-sizing: border-box;
+            outline: none;
+            border: 1px solid #eadddd;
+            padding: 0 20px;
+            transition: all .3s;
+            float:left;
+            margin-top:26px ;
         }
-        .search-container button{
-            height:50px;
-            line-height: 50px;
+        #button{
+            height:30px;
             padding:0 30px;
             border:none;
             box-sizing:border-box;
@@ -73,8 +72,9 @@
             font-size:24px;
             color:#fff;
             cursor:pointer;
-            border-top-right-radius: 25px;
-            border-botton-right-radius: 25px;
+            border-top-right-radius: 18px;
+            border-bottom-right-radius: 18px;
+
 
         }
         .search-container input:focus{
@@ -83,7 +83,7 @@
         .table{
             border-collapse:collapse;
             width :100%;
-            height :200%;
+
             /*border: 1px solid #000; /* 设置表格边框样式和颜色 */
             @media (max-width: 600px) {
                 table, thead, tbody, th, td, tr {
@@ -99,6 +99,7 @@
             text-align: center; /* 将单元格内容水平居中 */
             vertical-align: middle; /* 将单元格内容垂直居中 */
             border: 1px solid #000; /* 设置单元格边框样式和颜色*/
+            height:40px;
         }
 
     </style>
@@ -120,13 +121,15 @@
         <div class="headline">
             灾情显示
         </div>
-        <form  method="post">
-            <label for="Code">查询Code：</label>
-            <input type="text" id="Code" name="Code" />
-            <input type="submit" value="Code" />
-        </form>
+        <div class="search-container">
+             <form  method="post">
 
-        <table class="table" id="tableBody">
+            <input type="text" id="Code" name="Code" />
+            <input id="button" type="submit" value="搜索" />
+        </form>
+        </div>
+
+        <table class="table" >
             <tr>
                 <th>Coding ID</th>
                 <th>Geo Code</th>
@@ -137,7 +140,7 @@
                 <th>Description</th>
                 <th>详情</th>
             </tr>
-            </tr>
+
             <% List<unified_code> unifiedCodes = (List<unified_code>) request.getAttribute("unifiedCodes");
                 for (unified_code code : unifiedCodes) { %>
             <tr>
@@ -154,7 +157,5 @@
         </table>
     </div>
 </div>
-
-
 </body>
 </html>
