@@ -55,7 +55,6 @@ public class ShowCodeController {
     }
 
 
-
     public static String convertTimeCodeToChineseDescription(String timeCode) {
         try {
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -85,8 +84,8 @@ public class ShowCodeController {
         model.addAttribute("Time",convertTimeCodeToChineseDescription(code.getTimeCode()));
         model.addAttribute("SourceCode",SourceCode);
 
-        MapGetter mapGetter=new MapGetter();
         //以下为地图部分
+        MapGetter mapGetter=new MapGetter();
         MapData mapdata=mapGetter.getBaiduMap(GeoCode.getProvince()+GeoCode.getCity()+GeoCode.getCounty()+GeoCode.getTown()+GeoCode.getVillage());
         model.addAttribute("Longtitude",mapdata.Longtitude);
         model.addAttribute("Latitude",mapdata.Latitude);
@@ -116,4 +115,52 @@ public class ShowCodeController {
 
         return "imagePage";
     }
+
+    @GetMapping("/polymerCode/{id}")
+    public String getAuxiliaryCodeById(@PathVariable Integer id, Model model) {
+        // 使用 codeService 或其他方式获取指定 id 的 Code 对象
+        unified_code code = unifiedCodeService.selectByPrimaryKey(id);
+        carrier_code_info CarrierCode = codeInfoService.selectCarrierCodeByUnifiedCode(code);
+        disaster_code_info DisasterCode = codeInfoService.selectDisasterCodeByUnifiedCode(code);
+        geo_code_info GeoCode = codeInfoService.selectGeoCodeByUnifiedCode(code);
+        source_code_info SourceCode = codeInfoService.selectSourceCodeByUnifiedCode(code);
+
+        //添加主码的code、geo、time
+        model.addAttribute("code_2",code);//来不及修改了，应该换一种形式编写;
+        model.addAttribute("code",code.getGeoCode()+code.getTimeCode()+code.getSourceCode()+code.getCarrierCode()+code.getDisasterCode());
+        model.addAttribute("geo",GeoCode.getProvince()+GeoCode.getCity()+GeoCode.getCounty()+GeoCode.getTown()+GeoCode.getVillage());
+        model.addAttribute("Time",convertTimeCodeToChineseDescription(code.getTimeCode()));
+
+        //查询辅助码
+        List<unified_code> auxiliaryCodeList =codeInfoService.getAuxiliaryCodeListByMainCode(code);
+        model.addAttribute("auxiliaryCodeList",auxiliaryCodeList);
+        List<String> SourceInfoList = new ArrayList<>();
+        List<String> CarrierInfoList = new ArrayList<>();
+        List<String> DisasterInfoList = new ArrayList<>();
+        for (unified_code auxiliaryCode : auxiliaryCodeList)
+        {
+            source_code_info SourceInfo = codeInfoService.selectSourceCodeByUnifiedCode(auxiliaryCode);
+            carrier_code_info CarrierInfo = codeInfoService.selectCarrierCodeByUnifiedCode(auxiliaryCode);
+            disaster_code_info DisaterInfo = codeInfoService.selectDisasterCodeByUnifiedCode(auxiliaryCode);
+
+            //来自:${SourceCode.getSubCategory()}，属于${SourceCode.getMainCategory()}
+            SourceInfoList.add("来自:"+SourceInfo.getMainCategory()+",属于"+SourceInfo.getMainCategory());
+            CarrierInfoList.add(CarrierInfo.getCarrierForm());
+            //${DisasterCode.getSubCategory()}:${DisasterCode.getDisasterIndicators()}的情况是${code.getDescription()}
+            DisasterInfoList.add(DisaterInfo.getSubCategory()+DisaterInfo.getDisasterIndicators()+"的情况是"+auxiliaryCode.getDescription());
+        }
+        model.addAttribute("SourceInfoList",SourceInfoList);
+        model.addAttribute("CarrierInfoList",CarrierInfoList);
+        model.addAttribute("DisasterInfoList",DisasterInfoList);
+
+        //以下为地图部分
+        MapGetter mapGetter=new MapGetter();
+        MapData mapdata=mapGetter.getBaiduMap(GeoCode.getProvince()+GeoCode.getCity()+GeoCode.getCounty()+GeoCode.getTown()+GeoCode.getVillage());
+        model.addAttribute("Longtitude",mapdata.Longtitude);
+        model.addAttribute("Latitude",mapdata.Latitude);
+
+        return "polymerCode";
+
+    }
+
 }

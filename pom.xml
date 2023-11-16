@@ -112,6 +112,8 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.12.0</version> <!-- 使用最新版本 -->
     </dependency>
+
+    <!--google-->
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -176,6 +178,16 @@
             <version>5.1.47</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <!--设置生成目标的属性-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version> <!-- 使用合适的版本 -->
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
       </plugin>
     </plugins>
   </build>

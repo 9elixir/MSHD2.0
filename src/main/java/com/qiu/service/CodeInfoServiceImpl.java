@@ -14,6 +14,8 @@ import java.util.List;
 @Service
 public class CodeInfoServiceImpl implements CodeInfoService{
     @Autowired
+    private unified_codeMapper UnifiedCodeMapper;
+    @Autowired
     private carrier_code_infoMapper CarrierMapper;
     @Autowired
     private disaster_code_infoMapper DisasterMapper;
@@ -26,6 +28,7 @@ public class CodeInfoServiceImpl implements CodeInfoService{
     @Autowired
     private unified_code_Image_RelationMapper ImageRelationMapper;
 
+    public  void setUnifiedCodeMapper(unified_codeMapper UnifiedCodeMapper){this.UnifiedCodeMapper=UnifiedCodeMapper;}
     public void setCarrierMapper(carrier_code_infoMapper CarrierMapper) {
         this.CarrierMapper = CarrierMapper;
     }
@@ -40,6 +43,7 @@ public class CodeInfoServiceImpl implements CodeInfoService{
     }
     public void setImageMapper(imageTableMapper ImageMapper){this.ImageMapper = ImageMapper;}
     public void setImageRelationMapper(unified_code_Image_RelationMapper ImageRelationMapper){this.ImageRelationMapper=ImageRelationMapper;}
+
 
     @Override
     public carrier_code_info selectCarrierCodeByUnifiedCode(unified_code UnifiedCode){
@@ -90,8 +94,17 @@ public class CodeInfoServiceImpl implements CodeInfoService{
 
     }
 
+    @Override
+    public List<unified_code> getAuxiliaryCodeListByMainCode(unified_code MainCode){
+        unified_codeExample example = new unified_codeExample();
+        unified_codeExample.Criteria criteria = example.createCriteria();
+        //时间地点相同
+        criteria.andGeoCodeEqualTo(MainCode.getGeoCode());
+        criteria.andTimeCodeEqualTo(MainCode.getTimeCode());
 
-
-
+        List<unified_code> auxiliaryCode = UnifiedCodeMapper.selectByExample(example);
+        auxiliaryCode.removeIf(code -> code.equals(MainCode));
+        return auxiliaryCode;
+    }
 
 }

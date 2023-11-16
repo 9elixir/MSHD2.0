@@ -35,6 +35,7 @@
     </bean>
 
     <bean id="CodeInfoServiceImpl" class="com.qiu.service.CodeInfoServiceImpl">
+        <property name="unifiedCodeMapper" ref="unified_codeMapper"/>
         <property name="CarrierMapper" ref="carrier_code_infoMapper"/>
         <property name="DisasterMapper" ref="disaster_code_infoMapper"/>
         <property name="GeoMapper" ref="geo_code_infoMapper"/>

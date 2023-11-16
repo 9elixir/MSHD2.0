@@ -139,6 +139,7 @@
                 <th>Disaster Code</th>
                 <th>Description</th>
                 <th>详情</th>
+                <th>聚合详情</th>
             </tr>
 
             <% List<unified_code> unifiedCodes = (List<unified_code>) request.getAttribute("unifiedCodes");
@@ -152,6 +153,7 @@
                 <td><%= code.getDisasterCode() %></td>
                 <td><%= code.getDescription() %></td>
                 <td><a href="${pageContext.request.contextPath}/code/<%=code.getCodingId()%>">查看详情</a></td>
+                <td><a href="${pageContext.request.contextPath}/polymerCode/<%=code.getCodingId()%>">聚合详情</a></td>
             </tr>
             <% } %>
         </table>

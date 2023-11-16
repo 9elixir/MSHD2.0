@@ -20,4 +20,6 @@ public interface CodeInfoService{
     //有多少图片
     int countImageOfUnifiedCode(unified_code UnifiedCode);
 
+    List<unified_code> getAuxiliaryCodeListByMainCode(unified_code MainCode);
+
 }
