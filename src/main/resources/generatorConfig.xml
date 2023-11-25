@@ -41,8 +41,10 @@
         <!-- 逆向分析的表 -->
         <!-- tableName设置为*号，可以对应所有表，此时不写domainObjectName -->
         <!-- domainObjectName属性指定生成出来的实体类的类名 -->
-        <table tableName="ImageTable" domainObjectName="imageTable"/>
-        <table tableName="unified_code_Image_Relation" domainObjectName="unified_code_Image_Relation"/>
+        <table tableName="AudioTable" domainObjectName="audioTable"/>
+        <table tableName="unified_code_Audio_Relation" domainObjectName="unified_code_Audio_Relation"/>
+        <table tableName="VideoTable" domainObjectName="videoTable"/>
+        <table tableName="unified_code_Video_Relation" domainObjectName="unified_code_Video_Relation"/>
 
     </context>
 </generatorConfiguration>
