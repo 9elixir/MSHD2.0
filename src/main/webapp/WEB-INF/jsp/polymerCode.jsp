@@ -132,7 +132,7 @@
     <div class="container">
 
         <h1>聚合码详情</h1>
-        <h2>主聚合码为:xxx</h2>
+        <h2>主聚合码为:${code}</h2>
         <table border="1">
             <tr>
                 <th>全部灾情码</th>

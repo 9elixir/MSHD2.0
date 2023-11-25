@@ -22,4 +22,8 @@ public interface CodeInfoService{
 
     List<unified_code> getAuxiliaryCodeListByMainCode(unified_code MainCode);
 
+    int insertCode(unified_code code);
+
+    int insertPic(unified_code code, byte[] imageBytes);
+
 }

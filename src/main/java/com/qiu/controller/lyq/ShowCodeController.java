@@ -11,16 +11,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+
+import java.io.*;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 
 @Controller
 public class ShowCodeController {
@@ -32,6 +36,45 @@ public class ShowCodeController {
     @Autowired
     @Qualifier("CodeInfoServiceImpl")
     private CodeInfoService codeInfoService;
+
+    @PostMapping("/test")
+    public String postTest(Model model,@RequestParam("Code") String Code,@RequestParam("Describe") String Describe
+    ,@RequestParam("imageFiles") List<MultipartFile> imageFiles) {
+        //错误判断，请补充：
+
+        //插入文本编码
+        unified_code code = new unified_code();
+        code.setGeoCode(Code.substring(0,12)); //12位地理码
+        code.setTimeCode(Code.substring(12,26)); //14位时间码
+        code.setSourceCode(Code.substring(26,29));//3位来源码
+        code.setCarrierCode(Code.substring(29,30));//1位载体码
+        code.setDisasterCode(Code.substring(30,36));//6位指标码
+        code.setDescription(Describe);//描述
+        codeInfoService.insertCode(code); //插入文本编码
+
+        //插入图片
+        // Process and store the image files in the database
+        for (MultipartFile file : imageFiles) {
+            if (!file.isEmpty()) {
+                byte[] imageData = new byte[0];
+                try {
+                    imageData = file.getBytes();
+                    codeInfoService.insertPic(code,imageData); //插入图片
+                    System.out.println(imageData);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        //添加返回信息，请补充
+        return "test/test_css";
+    }
+
+    @GetMapping("/test")
+    public String showTest(Model model) {
+        return "test/test_css";
+    }
 
     @GetMapping("/showCodes")
     public String showCodes(Model model) {

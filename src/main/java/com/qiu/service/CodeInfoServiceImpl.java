@@ -107,4 +107,55 @@ public class CodeInfoServiceImpl implements CodeInfoService{
         return auxiliaryCode;
     }
 
+    @Override
+    public int insertCode(unified_code code){
+        unified_codeExample example = new unified_codeExample();
+        unified_codeExample.Criteria criteria = example.createCriteria();
+        //添加编码值
+        criteria.andGeoCodeEqualTo(code.getGeoCode());
+        criteria.andTimeCodeEqualTo(code.getTimeCode());
+        criteria.andCarrierCodeEqualTo(code.getCarrierCode());
+        criteria.andDisasterCodeEqualTo(code.getDisasterCode());
+        criteria.andSourceCodeEqualTo(code.getSourceCode());
+
+        List<unified_code> Code = UnifiedCodeMapper.selectByExample(example);
+        if (!Code.isEmpty()) //已经有值了
+            return 0;
+        return UnifiedCodeMapper.insertSelective(code);
+    }
+
+    @Override
+    public int insertPic(unified_code code, byte[] imageBytes){
+        unified_codeExample example = new unified_codeExample();
+        unified_codeExample.Criteria criteria = example.createCriteria();
+        //添加编码值
+        criteria.andGeoCodeEqualTo(code.getGeoCode());
+        criteria.andTimeCodeEqualTo(code.getTimeCode());
+        criteria.andCarrierCodeEqualTo(code.getCarrierCode());
+        criteria.andDisasterCodeEqualTo(code.getDisasterCode());
+        criteria.andSourceCodeEqualTo(code.getSourceCode());
+
+        List<unified_code> Code = UnifiedCodeMapper.selectByExample(example);
+        if (Code.isEmpty()) //还没有插入,则先进行插入
+            UnifiedCodeMapper.insertSelective(code);
+        //为了获取主键
+        List<unified_code> codeList = UnifiedCodeMapper.selectByExample(example);
+        unified_code code1 = codeList.get(0);
+
+        //插入图片
+        imageTable m_image = new imageTable();
+        m_image.setImageData(imageBytes);
+        ImageMapper.insertSelective(m_image);
+
+        //插入关系
+        unified_code_Image_Relation m_relation = new unified_code_Image_Relation();
+        m_relation.setCodingId(code1.getCodingId()); //注意写的是code1
+        m_relation.setImageId(m_image.getImageId()); //之前插入时，写回了id值
+        System.out.println(m_image.getImageId());
+        ImageRelationMapper.insert(m_relation);
+
+        return 1;
+    }
+
+
 }

@@ -1,0 +1,250 @@
+
+    /* 这是一个多行注释，可以用于添加关于CSS部分的说明 */
+
+body {
+    font-family: Arial, sans-serif; /* 设置整个页面的字体 */
+    margin: 0; /* 去除页面默认的外边距 */
+    display: flex; /* 使用弹性布局 */
+    flex-direction: row; /* 将主体内容水平排列 */
+    background-color: #e0e0e0;
+}
+
+#sidebar {
+    width: 250px; /* 设置侧栏的宽度 */
+    height: auto; /* 设置侧栏高度为视口高度 */
+    background-color: #212121; /* 设置侧栏的背景颜色 */
+    padding: 0; /* 设置侧栏的内边距 */
+    /* overflow-y: auto; 添加垂直滚动条，以防止内容溢出时出现滚动条 */
+}
+
+#main-content {
+    flex: 1; /* 填充剩余空间 */
+    padding: 0px; /* 设置主内容区的内边距 */
+    margin-left: 5px; /* 在主内容区的左侧添加5px的外边距 */
+}
+
+#top-bar {
+    background-color: #212121;
+    color: whitesmoke;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 5px;
+    font-family: "楷体", sans-serif;
+    font-size: 20px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.topbar-left img {
+    max-height: 50px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-right: 20px;
+}
+
+.login-register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.login-register button {
+    padding: 5px 10px;
+    background-color: #e02222;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px; /* 修改 padding 值来调整输入框的大小 */
+    border: 1px solid #ccc;
+    width: 400px; /* 修改 width 值来调整输入框的宽度 */
+}
+
+.search-bar button {
+    padding: 10px 10px;
+    background-color: #e02222;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* ... 其他样式 ... */
+
+
+
+
+#login-btn,
+#register-btn {
+    padding: 5px 10px; /* 设置登录和注册按钮的内边距 */
+    background-color: #e02222; /* 设置按钮的背景颜色 */
+    color: #fff; /* 设置按钮的文本颜色为白色 */
+    border: none; /* 去除按钮的边框 */
+    cursor: pointer; /* 将鼠标悬停在按钮上时显示手型光标 */
+}
+
+    #image-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        overflow-y: scroll;
+        height: auto;
+    }
+
+    .image {
+        height: auto;
+        width: calc(25% - 5px);
+        background-color: #ddd;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        overflow: hidden;
+        transition: transform 0.3s ease; /* 添加过渡效果 */
+    }
+
+    .image:hover {
+        transform: scale(1.02); /* 鼠标悬浮时放大图片 */
+    }
+
+    .image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
+
+    .image-description {
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif; /* 自定义字体 */
+        font-size: 14px; /* 自定义字体大小 */
+    }
+
+
+/* 自定义描述容器样式 */
+.custom-description {
+    background-color: #ff9797; /* 自定义背景颜色 */
+    color: #fff; /* 自定义文字颜色 */
+    font-size: 16px;
+    padding: 15px;
+    font-family: 'Helvetica', sans-serif;
+}
+
+#currentDateTime {
+    font-size: 20px; /* 修改字体大小 */
+    color: whitesmoke; /* 修改字体颜色 */
+    font-family: Arial, sans-serif; /* 修改字体 */
+    padding: 5px;
+}
+
+#navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.nav-option {
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 5px; /* 添加内边距以增加点击区域 */
+    transition: background-color 0.2s; /* 添加颜色渐变过渡效果 */
+    color: whitesmoke;
+}
+
+.sublinks {
+    margin-left: 1px;
+    list-style: none;
+    padding: 1px;
+}
+
+/* 设置二级导航栏字的颜色为绿色 */
+.sublinks a {
+    text-decoration: none;
+    color: whitesmoke; /* 设置字的颜色为绿色 */
+    transition: background-color 0.2s; /* 添加颜色渐变过渡效果 */
+    display: block;
+    margin-left: 0px;
+    padding: 5px; /* 添加内边距以增加点击区域 */
+}
+
+/* 设置三级导航栏字的颜色为蓝色 */
+.sublinks li a {
+    text-decoration: none;
+    color: blue; /* 设置字的颜色为蓝色 */
+    transition: background-color 0.3s; /* 添加颜色渐变过渡效果 */
+    display: block;
+    padding: 5px; /* 添加内边距以增加点击区域 */
+}
+
+/* 鼠标悬停时导航选项的背景颜色变化 */
+.nav-option:hover {
+    background-color: #e02222; /* 更改背景颜色 */
+}
+
+/* 鼠标悬停时子链接的背景颜色变化 */
+.sublinks a:hover {
+    background-color: #ff9797; /* 更改背景颜色为黄色 */
+}
+
+/* 设置子链接间的间距 */
+.sublinks li {
+    margin-top: 1px; /* 增加1px的间距 */
+}
+
+/* 设置不同层级的子链接的不同背景颜色 */
+.sublinks:nth-child(odd) a {
+    background-color: #ff9797; /* 浅灰色背景 */
+}
+
+.sublinks:nth-child(even) a {
+    background-color: #3D3D3D; /* 更深的灰色背景 */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    gap: 10px;
+}
+
+.pagination button {
+    padding: 8px 15px;
+    background-color: #e02222;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.pagination span {
+    padding: 8px 15px;
+    background-color: #e0e0e0;
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
