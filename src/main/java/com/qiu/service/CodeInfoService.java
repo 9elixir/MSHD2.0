@@ -24,6 +24,9 @@ public interface CodeInfoService{
 
     int insertCode(unified_code code);
 
-    int insertPic(unified_code code, byte[] imageBytes);
+    int insertPic(unified_code code,byte[] imageBytes);
+    int insertAudio(unified_code code,byte[] audioBytes);
+
+    int insertVideo(unified_code code,byte[] videoBytes);
 
 }

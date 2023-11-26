@@ -42,6 +42,10 @@
         <property name="SourceMapper" ref="source_code_infoMapper"/>
         <property name="imageMapper" ref="imageTableMapper"/>
         <property name="imageRelationMapper" ref="unified_code_Image_RelationMapper"/>
+        <property name="audioMapper" ref="audioTableMapper"/>
+        <property name="audioRelationMapper" ref="unified_code_Audio_RelationMapper"/>
+        <property name="videoMapper" ref="videoTableMapper"/>
+        <property name="videoRelationMapper" ref="unified_code_Video_RelationMapper"/>
     </bean>
 
 

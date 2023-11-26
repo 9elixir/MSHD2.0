@@ -52,15 +52,20 @@ public class ShowCodeController {
         code.setDescription(Describe);//描述
         codeInfoService.insertCode(code); //插入文本编码
 
-        //插入图片
+        //插入文件
         // Process and store the image files in the database
         for (MultipartFile file : imageFiles) {
             if (!file.isEmpty()) {
                 byte[] imageData = new byte[0];
                 try {
                     imageData = file.getBytes();
-                    codeInfoService.insertPic(code,imageData); //插入图片
-                    System.out.println(imageData);
+                    if (Code.substring(29,30) == "2") //图片
+                        codeInfoService.insertPic(code,imageData); //插入图片
+                    if (Code.substring(29,30) == "3") //音频
+                        codeInfoService.insertAudio(code,imageData); //插入音频
+                    if (Code.substring(29,30) == "4") //视频
+                        codeInfoService.insertVideo(code,imageData);//插入视频
+                    //System.out.println(imageData);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

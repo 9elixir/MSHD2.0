@@ -27,6 +27,14 @@ public class CodeInfoServiceImpl implements CodeInfoService{
     private imageTableMapper ImageMapper;
     @Autowired
     private unified_code_Image_RelationMapper ImageRelationMapper;
+    @Autowired
+    private audioTableMapper AudioMapper;
+    @Autowired
+    private unified_code_Audio_RelationMapper AudioRelationMapper;
+    @Autowired
+    private videoTableMapper VideoMapper;
+    @Autowired
+    private unified_code_Video_RelationMapper VideoRelationMapper;
 
     public  void setUnifiedCodeMapper(unified_codeMapper UnifiedCodeMapper){this.UnifiedCodeMapper=UnifiedCodeMapper;}
     public void setCarrierMapper(carrier_code_infoMapper CarrierMapper) {
@@ -43,7 +51,10 @@ public class CodeInfoServiceImpl implements CodeInfoService{
     }
     public void setImageMapper(imageTableMapper ImageMapper){this.ImageMapper = ImageMapper;}
     public void setImageRelationMapper(unified_code_Image_RelationMapper ImageRelationMapper){this.ImageRelationMapper=ImageRelationMapper;}
-
+    public void setAudioMapper(audioTableMapper AudioMapper){this.AudioMapper = AudioMapper;}
+    public void setAudioRelationMapper(unified_code_Audio_RelationMapper AudioRelationMapper){this.AudioRelationMapper=AudioRelationMapper;}
+    public void setVideoMapper(videoTableMapper VideoMapper){this.VideoMapper = VideoMapper;}
+    public void setVideoRelationMapper(unified_code_Video_RelationMapper VideoRelationMapper){this.VideoRelationMapper = VideoRelationMapper;}
 
     @Override
     public carrier_code_info selectCarrierCodeByUnifiedCode(unified_code UnifiedCode){
@@ -157,5 +168,69 @@ public class CodeInfoServiceImpl implements CodeInfoService{
         return 1;
     }
 
+    @Override
+    public int insertAudio(unified_code code,byte[] audioBytes){
+        unified_codeExample example = new unified_codeExample();
+        unified_codeExample.Criteria criteria = example.createCriteria();
+        //添加编码值
+        criteria.andGeoCodeEqualTo(code.getGeoCode());
+        criteria.andTimeCodeEqualTo(code.getTimeCode());
+        criteria.andCarrierCodeEqualTo(code.getCarrierCode());
+        criteria.andDisasterCodeEqualTo(code.getDisasterCode());
+        criteria.andSourceCodeEqualTo(code.getSourceCode());
+
+        List<unified_code> Code = UnifiedCodeMapper.selectByExample(example);
+        if (Code.isEmpty()) //还没有插入,则先进行插入
+            UnifiedCodeMapper.insertSelective(code);
+        //为了获取主键
+        List<unified_code> codeList = UnifiedCodeMapper.selectByExample(example);
+        unified_code code1 = codeList.get(0);
+
+        //插入音频
+        audioTable m_audio = new audioTable();
+        m_audio.setAudioData(audioBytes);
+        AudioMapper.insertSelective(m_audio);
+
+        //插入关系
+        unified_code_Audio_Relation m_relation = new unified_code_Audio_Relation();
+        m_relation.setCodingId(code1.getCodingId()); //注意写的是code1
+        m_relation.setAudioId(m_audio.getAudioId()); //之前插入时，写回了id值
+        System.out.println(m_audio.getAudioId());
+        AudioRelationMapper.insert(m_relation);
+
+        return 1;
+    }
+
+    @Override
+    public int insertVideo(unified_code code,byte[] videoBytes){
+        unified_codeExample example = new unified_codeExample();
+        unified_codeExample.Criteria criteria = example.createCriteria();
+        //添加编码值
+        criteria.andGeoCodeEqualTo(code.getGeoCode());
+        criteria.andTimeCodeEqualTo(code.getTimeCode());
+        criteria.andCarrierCodeEqualTo(code.getCarrierCode());
+        criteria.andDisasterCodeEqualTo(code.getDisasterCode());
+        criteria.andSourceCodeEqualTo(code.getSourceCode());
+
+        List<unified_code> Code = UnifiedCodeMapper.selectByExample(example);
+        if (Code.isEmpty()) //还没有插入,则先进行插入
+            UnifiedCodeMapper.insertSelective(code);
+        //为了获取主键
+        List<unified_code> codeList = UnifiedCodeMapper.selectByExample(example);
+        unified_code code1 = codeList.get(0);
+
+        //插入视频
+        videoTable m_video = new videoTable();
+        m_video.setVideoData(videoBytes);
+        VideoMapper.insertSelective(m_video);
+
+        //插入关系
+        unified_code_Video_Relation m_relation = new unified_code_Video_Relation();
+        m_relation.setCodingId(code1.getCodingId()); //注意写的是code1
+        m_relation.setVideoId(m_video.getVideoId()); //之前插入时，写回了id值
+        System.out.println(m_video.getVideoId());
+        VideoRelationMapper.insert(m_relation);
+        return 1;
+    }
 
 }
