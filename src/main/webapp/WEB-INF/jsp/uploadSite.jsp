@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/StyleForCES.css"> <!--这一行是用来调用StyleForCES.css文件的 -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/StyleForuploadSite.css">
 </head>
 <body>
     <h>测试一下css</h>
@@ -21,5 +21,19 @@
         <input type="file" name="imageFiles" multiple>
         <input id="button" type="submit" value="插入" />
     </form>
+
+
+    <ul class="bg-squares">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
 </body>
 </html>
