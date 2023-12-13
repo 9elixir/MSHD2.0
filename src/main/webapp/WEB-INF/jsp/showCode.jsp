@@ -19,7 +19,7 @@
         <ul class="lift_border">
             <a href="${pageContext.request.contextPath}/showCodes" class="a1">灾情显示</a>
             <a href=" " class="a1">灾情可视化</a>
-            <a href="${pageContext.request.contextPath}/test" class="a1">灾情码上传</a>
+            <a href="${pageContext.request.contextPath}/upload" class="a1">灾情码上传</a>
         </ul>
         </div>
         <div class="container">
