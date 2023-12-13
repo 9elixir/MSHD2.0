@@ -84,10 +84,6 @@ public class ShowCodeController {
         return "test/test_css";
     }
 
-    @GetMapping("/test")
-    public String showTest(Model model) {
-        return "test/test_css";
-    }
 
 
 
@@ -219,7 +215,12 @@ public class ShowCodeController {
         model.addAttribute("Latitude",mapdata.Latitude);
 
         return "polymerCode";
+    }
 
+    @GetMapping("/upload")
+    public String showTest(Model model) {
+
+        return "uploadSite";
     }
 
 }
