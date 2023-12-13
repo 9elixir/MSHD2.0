@@ -1,0 +1,171 @@
+#app{
+    width:100%;
+    min-width:800px;
+    display:flex;
+    flex-direction: column;
+
+}
+
+.header{
+    background-color:#242f42 ;
+    font-size: 18px;
+    font-family: "微软雅黑";
+    font-weight: bold;
+    /*字体缩写：粗细 大小 样式*/
+    font: bold 30px "微软雅黑";
+    color:#eeeeee;
+    height:50px;
+}
+
+.subject{
+
+    min-height: 850px;
+    display:flex;
+}
+
+.subject::after{
+    content:"";
+    display:block;
+    clear:both;
+}
+
+.sider{
+    background-color:#242f33 ;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    padding-top:0;
+    width:10%;
+    color: #eeeeee;
+}
+.lift_border{
+
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 10px;
+}
+.a1{
+    display:inline-block;
+    text-decoration: none;
+    color:#eadddd;
+    width:110px;
+    height:80px;
+    text-align: center;
+    padding-bottom: 0;
+    line-height: 1.5;
+
+}
+.a1:hover{
+    color:#eeecec;
+}
+.a1:active{
+    color:cyan;
+}
+.a2{
+    display:block;
+    text-decoration: none;
+    color:#00ff;
+}
+.a2:active{
+    color:cyan;
+}
+
+.container{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    padding:0 0;
+    width:90%;
+    background-color: #eeecec;
+}
+.headline{
+    margin-top:10px;
+    margin-left: 0px;
+    width:99%;
+    font-size:20px;
+    border: 1px solid #d3d3d3;
+
+}
+
+.search_refresh{
+    width:100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+}
+
+.search-container{
+    display: inline-block;
+    width:500px;
+    height:100px;
+    line-height:90px;
+}
+#mybutton{
+    height:30px;
+    border:none;
+    box-sizing:border-box;
+    background-color:green;
+    font-size:24px;
+    color:#fff;
+    cursor:pointer;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+}
+
+#Code {
+    flex: 1;
+    height: 30px;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px solid #eadddd;
+    padding: 0 20px;
+    transition: all .3s;
+    float:left;
+    margin-top:26px ;
+}
+#button{
+    height:30px;
+    padding:0 30px;
+    border:none;
+    box-sizing:border-box;
+    background-color:green;
+    font-size:24px;
+    color:#fff;
+    cursor:pointer;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+
+
+}
+.search-container input:focus{
+    box-shadow:0 0 5px #eee;
+}
+.table{
+    border-collapse:collapse;
+    width :100%;
+
+    /*border: 1px solid #000; /* 设置表格边框样式和颜色 */
+    @media (max-width: 600px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+    }
+
+    margin-bottom: 10px; /* 设置下边距 */
+    padding-left: 10px;
+    padding-right:10px;
+}
+.table td, th {
+    text-align: center; /* 将单元格内容水平居中 */
+    vertical-align: middle; /* 将单元格内容垂直居中 */
+    border: 1px solid #000; /* 设置单元格边框样式和颜色*/
+    height:40px;
+}

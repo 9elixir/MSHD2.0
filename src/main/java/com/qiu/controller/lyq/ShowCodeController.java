@@ -5,12 +5,14 @@ import com.qiu.Rook.MapData;
 import com.qiu.pojo.*;
 import com.qiu.service.CodeInfoService;
 import com.qiu.service.UnifiedCodeService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +26,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 
 @Controller
@@ -81,6 +89,8 @@ public class ShowCodeController {
         return "test/test_css";
     }
 
+
+
     @GetMapping("/showCodes")
     public String showCodes(Model model) {
         // Retrieve data from the Unified Codes service
@@ -91,6 +101,7 @@ public class ShowCodeController {
         // Return the name of the JSP page to render
         return "showCode";
     }
+
 
     @PostMapping("/showCodes")
     public String queryCodes(Model model, @RequestParam("Code") String queryCode) {
