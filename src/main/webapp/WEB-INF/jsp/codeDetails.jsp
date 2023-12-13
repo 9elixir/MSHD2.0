@@ -54,7 +54,9 @@
         <div><p style="font-weight: bold;">图片</p><a href="${pageContext.request.contextPath}/displayImage/${code.getCodingId()}" class="a2">显示code里面的图片</a></div>
         <div><p style="font-weight: bold;">视频</p><a href="${pageContext.request.contextPath}/displayVideo/${code.getCodingId()}" class="a2">显示code里面的视频</a></div>
         <div><p style="font-weight: bold;">地图</p><p>${code.getGeoCode().toString()}</p>
-          <div id="Mapcontainer" style="margin-top:30px;width:400px;height:250px;overflow:hidden;"><div id="allmap"></div></div>
+          <div id="Mapcontainer" style="margin-top:30px;width:400px;height:400px;overflow:hidden">
+            <div id="allmap"></div>
+          </div>
         </div>
         <div><p style="font-weight: bold;">所有文件</p></div>
       </div>
