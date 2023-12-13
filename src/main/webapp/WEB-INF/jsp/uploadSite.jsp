@@ -12,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/StyleForuploadSite.css">
 </head>
 <body>
-    <h>测试一下css</h>
     <form method="post" action="${pageContext.request.contextPath}/test" enctype="multipart/form-data">
         <p>编码</p>
         <input type="text" id="Code" name="Code" />

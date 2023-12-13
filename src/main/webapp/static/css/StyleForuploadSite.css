@@ -200,5 +200,9 @@ imageFiles:hover {
     }
 }
 
+#button {
+    width: 250px;
+    height: 40px;
+}
 
 

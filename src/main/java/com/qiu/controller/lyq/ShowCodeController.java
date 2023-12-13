@@ -45,47 +45,6 @@ public class ShowCodeController {
     @Qualifier("CodeInfoServiceImpl")
     private CodeInfoService codeInfoService;
 
-    @PostMapping("/test")
-    public String postTest(Model model,@RequestParam("Code") String Code,@RequestParam("Describe") String Describe
-    ,@RequestParam("imageFiles") List<MultipartFile> imageFiles) {
-        //错误判断，请补充：
-
-        //插入文本编码
-        unified_code code = new unified_code();
-        code.setGeoCode(Code.substring(0,12)); //12位地理码
-        code.setTimeCode(Code.substring(12,26)); //14位时间码
-        code.setSourceCode(Code.substring(26,29));//3位来源码
-        code.setCarrierCode(Code.substring(29,30));//1位载体码
-        code.setDisasterCode(Code.substring(30,36));//6位指标码
-        code.setDescription(Describe);//描述
-        codeInfoService.insertCode(code); //插入文本编码
-
-        //插入文件
-        // Process and store the image files in the database
-        for (MultipartFile file : imageFiles) {
-            if (!file.isEmpty()) {
-                byte[] imageData = new byte[0];
-                try {
-                    imageData = file.getBytes();
-                    if (Code.substring(29,30) == "2") //图片
-                        codeInfoService.insertPic(code,imageData); //插入图片
-                    if (Code.substring(29,30) == "3") //音频
-                        codeInfoService.insertAudio(code,imageData); //插入音频
-                    if (Code.substring(29,30) == "4") //视频
-                        codeInfoService.insertVideo(code,imageData);//插入视频
-                    //System.out.println(imageData);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-
-        //添加返回信息，请补充
-        return "test/test_css";
-    }
-
-
-
 
     @GetMapping("/showCodes")
     public String showCodes(Model model) {
@@ -223,4 +182,41 @@ public class ShowCodeController {
         return "uploadSite";
     }
 
+    @PostMapping("/upload")
+    public String postTest(Model model,@RequestParam("Code") String Code,@RequestParam("Describe") String Describe
+            ,@RequestParam("imageFiles") List<MultipartFile> imageFiles) {
+        //错误判断，请补充：
+
+        //插入文本编码
+        unified_code code = new unified_code();
+        code.setGeoCode(Code.substring(0,12)); //12位地理码
+        code.setTimeCode(Code.substring(12,26)); //14位时间码
+        code.setSourceCode(Code.substring(26,29));//3位来源码
+        code.setCarrierCode(Code.substring(29,30));//1位载体码
+        code.setDisasterCode(Code.substring(30,36));//6位指标码
+        code.setDescription(Describe);//描述
+        codeInfoService.insertCode(code); //插入文本编码
+
+        //插入文件
+        // Process and store the image files in the database
+        for (MultipartFile file : imageFiles) {
+            if (!file.isEmpty()) {
+                byte[] imageData = new byte[0];
+                try {
+                    imageData = file.getBytes();
+                    if (Code.substring(29,30) == "2") //图片
+                        codeInfoService.insertPic(code,imageData); //插入图片
+                    if (Code.substring(29,30) == "3") //音频
+                        codeInfoService.insertAudio(code,imageData); //插入音频
+                    if (Code.substring(29,30) == "4") //视频
+                        codeInfoService.insertVideo(code,imageData);//插入视频
+                    //System.out.println(imageData);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        //添加返回信息，请补充
+        return "uploadSite";
+    }
 }
