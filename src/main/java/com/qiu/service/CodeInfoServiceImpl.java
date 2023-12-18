@@ -88,8 +88,37 @@ public class CodeInfoServiceImpl implements CodeInfoService{
         return relations;
     }
     @Override
+    public List<unified_code_Audio_Relation> getAllAudioRelationByUnifiedCode(unified_code UnifiedCode){
+        // 创建关联关系的查询条件
+        unified_code_Audio_RelationExample example = new unified_code_Audio_RelationExample();
+        unified_code_Audio_RelationExample.Criteria criteria = example.createCriteria();
+        criteria.andCodingIdEqualTo(UnifiedCode.getCodingId());
+
+        // 使用Mapper查询关联列表
+        List<unified_code_Audio_Relation> relations = AudioRelationMapper.selectByExample(example);
+        return relations;
+    }
+    @Override
+    public List<unified_code_Video_Relation> getAllVideoRelationByUnifiedCode(unified_code UnifiedCode){
+        /* 创建关联关系的查询条件 */
+        unified_code_Video_RelationExample example = new unified_code_Video_RelationExample();
+        unified_code_Video_RelationExample.Criteria criteria = example.createCriteria();
+        criteria.andCodingIdEqualTo(UnifiedCode.getCodingId());
+        /* 使用Mapper查询关联列表 */
+        List<unified_code_Video_Relation> relations = VideoRelationMapper.selectByExample(example);
+        return relations;
+    }
+    @Override
     public byte[] selectImageByImageRelation(unified_code_Image_Relation ImageRelation){
         return ImageMapper.selectByPrimaryKey(ImageRelation.getImageId()).getImageData();
+    }
+    @Override
+    public byte[] selectAudioByAudioRelation(unified_code_Audio_Relation AudioRelation){
+        return AudioMapper.selectByPrimaryKey(AudioRelation.getAudioId()).getAudioData();
+    }
+    @Override
+    public byte[] selectVideoByVideoRelation(unified_code_Video_Relation VideoRelation){
+        return VideoMapper.selectByPrimaryKey(VideoRelation.getVideoId()).getVideoData();
     }
 
     @Override

@@ -14,8 +14,11 @@ public interface CodeInfoService{
     source_code_info selectSourceCodeByUnifiedCode(unified_code UnifiedCode);
 
     List<unified_code_Image_Relation> getAllImageRelationByUnifiedCode(unified_code UnifiedCode);
-
+    List<unified_code_Audio_Relation> getAllAudioRelationByUnifiedCode(unified_code UnifiedCode);
+    List<unified_code_Video_Relation> getAllVideoRelationByUnifiedCode(unified_code UnifiedCode);
     byte[] selectImageByImageRelation(unified_code_Image_Relation ImageRelation);
+    byte[] selectAudioByAudioRelation(unified_code_Audio_Relation AudioRelation);
+    byte[] selectVideoByVideoRelation(unified_code_Video_Relation VideoRelation);
 
     //有多少图片
     int countImageOfUnifiedCode(unified_code UnifiedCode);

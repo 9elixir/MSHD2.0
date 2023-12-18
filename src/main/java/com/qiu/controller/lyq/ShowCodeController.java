@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import java.io.*;
 
@@ -130,6 +127,27 @@ public class ShowCodeController {
         return "imagePage";
     }
 
+    @RequestMapping("/displayVideo/{id}")
+    public String showVideo(@PathVariable Integer id, Model model) {
+        //获取对应id的code
+        unified_code code = unifiedCodeService.selectByPrimaryKey(id);
+        //获取所有关系，每个关系内部有一个视频
+        List<unified_code_Video_Relation> Relations = codeInfoService.getAllVideoRelationByUnifiedCode(code);
+        //循环得到每一个视频
+        List<String> base64List = new ArrayList<>();
+        for (unified_code_Video_Relation relation:Relations){
+            //获取图片流
+            byte[] Bytes = codeInfoService.selectVideoByVideoRelation(relation);
+            // 对图片进行Base64编码
+            String base64String = Base64.getEncoder().encodeToString(Bytes);
+            // 写入到List里面
+            base64List.add(base64String);
+            System.out.println(base64String);
+        }
+        model.addAttribute("videoData", base64List);
+        return "videoPage"; // 这里假设你的 JSP 页面名称为 videoPage.jsp
+    }
+
     @GetMapping("/polymerCode/{id}")
     public String getAuxiliaryCodeById(@PathVariable Integer id, Model model) {
         // 使用 codeService 或其他方式获取指定 id 的 Code 对象
@@ -202,15 +220,18 @@ public class ShowCodeController {
         // Process and store the image files in the database
         for (MultipartFile file : imageFiles) {
             if (!file.isEmpty()) {
-                byte[] imageData = new byte[0];
                 try {
-                    imageData = file.getBytes();
-                    if (Code.substring(29,30) == "2") //图片
+                    byte[] imageData = file.getBytes();
+                    //System.out.println(imageData);
+                    System.out.println(code.getCarrierCode());
+                    if (Objects.equals(code.getCarrierCode(), "2")) //图片
                         codeInfoService.insertPic(code,imageData); //插入图片
-                    if (Code.substring(29,30) == "3") //音频
+                    if (Objects.equals(code.getCarrierCode(), "3")) //音频
                         codeInfoService.insertAudio(code,imageData); //插入音频
-                    if (Code.substring(29,30) == "4") //视频
-                        codeInfoService.insertVideo(code,imageData);//插入视频
+                    if (Objects.equals(code.getCarrierCode(), "4")) {//视频
+                        codeInfoService.insertVideo(code, imageData);//插入视频
+                        System.out.println("Video");
+                    }
                     //System.out.println(imageData);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
