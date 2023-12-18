@@ -32,4 +32,8 @@ public interface CodeInfoService{
 
     int insertVideo(unified_code code,byte[] videoBytes);
 
+    int DropImageRelation(unified_code_Image_Relation imageRelation);
+
+    int DropVideoRelation(unified_code_Video_Relation videoRelation);
+
 }

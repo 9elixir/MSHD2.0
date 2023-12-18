@@ -42,7 +42,6 @@ public class ShowCodeController {
     @Qualifier("CodeInfoServiceImpl")
     private CodeInfoService codeInfoService;
 
-
     @GetMapping("/showCodes")
     public String showCodes(Model model) {
         // Retrieve data from the Unified Codes service
@@ -78,6 +77,23 @@ public class ShowCodeController {
         }
     }
 
+    @GetMapping("/DropCode/{id}")
+    public String DropCodeById(@PathVariable Integer id, Model model){
+        // 使用 codeService 或其他方式获取指定 id 的 Code 对象
+        unified_code code = unifiedCodeService.selectByPrimaryKey(id);
+        // 删除图片与关系
+        List<unified_code_Image_Relation> ImageRelations = codeInfoService.getAllImageRelationByUnifiedCode(code);
+        for (unified_code_Image_Relation relation : ImageRelations){
+            codeInfoService.DropImageRelation(relation);
+        }
+        // 删除视频与关系
+        List<unified_code_Video_Relation> VideoRelations =codeInfoService.getAllVideoRelationByUnifiedCode(code);
+        for (unified_code_Video_Relation relation : VideoRelations) {
+            codeInfoService.DropVideoRelation(relation);
+        }
+        unifiedCodeService.deleteByPrimaryKey(code.getCodingId());
+        return "redirect:/showCodes";
+    }
     @GetMapping("/code/{id}")
     public String getCodeById(@PathVariable Integer id, Model model) {
         // 使用 codeService 或其他方式获取指定 id 的 Code 对象

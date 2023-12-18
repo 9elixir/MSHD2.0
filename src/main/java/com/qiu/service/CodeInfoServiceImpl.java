@@ -262,4 +262,32 @@ public class CodeInfoServiceImpl implements CodeInfoService{
         return 1;
     }
 
+    @Override
+    public int DropImageRelation(unified_code_Image_Relation imageRelation){
+        Integer id = ImageMapper.selectByPrimaryKey(imageRelation.getImageId()).getImageId();
+
+        unified_code_Image_RelationExample example = new unified_code_Image_RelationExample();
+        unified_code_Image_RelationExample.Criteria criteria = example.createCriteria();
+        criteria.andCodingIdEqualTo(imageRelation.getCodingId());
+        criteria.andImageIdEqualTo(imageRelation.getImageId());
+        ImageRelationMapper.deleteByExample(example);
+
+        ImageMapper.deleteByPrimaryKey(id);
+        return 1;
+    }
+
+    @Override
+    public int DropVideoRelation(unified_code_Video_Relation videoRelation){
+        Integer id = VideoMapper.selectByPrimaryKey(videoRelation.getVideoId()).getVideoId();
+
+        unified_code_Video_RelationExample example = new unified_code_Video_RelationExample();
+        unified_code_Video_RelationExample.Criteria criteria = example.createCriteria();
+        criteria.andCodingIdEqualTo(videoRelation.getCodingId());
+        criteria.andVideoIdEqualTo(videoRelation.getVideoId());
+        VideoRelationMapper.deleteByExample(example);
+
+        VideoMapper.deleteByPrimaryKey(id);
+        return 1;
+    }
+
 }
