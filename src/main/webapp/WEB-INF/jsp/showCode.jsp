@@ -7,7 +7,6 @@
     <meta charset="UTF-8">
     <title>Show Unified Codes</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/css.css">
-
 </head>
 <body>
 <div id="app" data-v-app>
@@ -33,10 +32,16 @@
                         <input id="button" type="submit" value="搜索" />
                     </form>
                 </div>
-                <button id="mybutton">
-                    <span>按时间排序</span>
-                </button>
+                <div class="export-button">
+                    <form action="<%=request.getContextPath()%>/exportCSV" method="get">
+                        <input class="export-button" type="submit" value="导出" />
+                    </form>
+                    <button id="mybutton">
+                        <span>按时间排序</span>
+                    </button>
+                </div>
             </div>
+
             <table class="table" >
                 <tr>
                     <th>Coding ID</th>
@@ -46,7 +51,7 @@
                     <th>Carrier Code</th>
                     <th>Disaster Code</th>
                     <th>Description</th>
-                    <th>操作</th>>
+                    <th>操作</th>
                     <th>详情</th>
                     <th>聚合详情</th>
                 </tr>

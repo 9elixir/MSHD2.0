@@ -1,5 +1,6 @@
 package com.qiu.controller.lyq;
 
+import com.opencsv.CSVWriter;
 import com.qiu.Rook.MapGetter;
 import com.qiu.Rook.MapData;
 import com.qiu.pojo.*;
@@ -8,11 +9,13 @@ import com.qiu.service.UnifiedCodeService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,8 +30,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 @Controller
@@ -138,6 +147,7 @@ public class ShowCodeController {
         }
 
         // 将Base64编码后的图片数据存储到模型
+        model.addAttribute("ImageRelation",Relations);
         model.addAttribute("base64ImageList", base64ImageList);
 
         return "imagePage";
@@ -160,6 +170,7 @@ public class ShowCodeController {
             base64List.add(base64String);
             System.out.println(base64String);
         }
+        model.addAttribute("VideoRelations",Relations);
         model.addAttribute("videoData", base64List);
         return "videoPage"; // 这里假设你的 JSP 页面名称为 videoPage.jsp
     }
@@ -257,4 +268,64 @@ public class ShowCodeController {
         //添加返回信息，请补充
         return "uploadSite";
     }
+
+    @GetMapping("/exportCSV")
+    public void exportCSV(HttpServletResponse response) throws IOException {
+        //获取数据
+        List<unified_code> unifiedCodes = unifiedCodeService.getAllUnifiedCodes();
+
+        //转换为CSV格式
+        StringWriter writer = new StringWriter();
+        CSVWriter csvWriter=new CSVWriter(writer);
+
+        //添加标题行
+        csvWriter.writeNext(new String[]{"Geo Code","Time Code","Source Code","Carrier Code","Disaster Code","Description"});
+        for (unified_code code:unifiedCodes) {
+            csvWriter.writeNext(new String[]{code.getGeoCode(),code.getTimeCode(),code.getSourceCode(),code.getCarrierCode(),code.getDisasterCode(),code.getDescription()});
+        }
+
+        //创建文件并写入CSV数据
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; file=exportedData.csv");
+
+        //提供下载链接
+        ServletOutputStream outputStream = response.getOutputStream();
+        outputStream.write(writer.toString().getBytes());
+        outputStream.flush();
+    }
+
+    @GetMapping("/image")
+    public ResponseEntity<byte[]> downloadImage(@RequestParam("ImageId") Integer ImageId,@RequestParam("CodingId") Integer CodingId) {
+        unified_code_Image_Relation imgRelation = new unified_code_Image_Relation();
+        imgRelation.setCodingId(CodingId);
+        imgRelation.setImageId(ImageId);
+        byte[] imageBytes = codeInfoService.selectImageByImageRelation(imgRelation);
+
+        // Set response headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(imageBytes.length);
+        headers.setContentDispositionFormData("attachment", "image.jpg");
+
+        // Return the response entity with image bytes and headers
+        return ResponseEntity.ok().headers(headers).body(imageBytes);
+    }
+
+    @GetMapping("/video")
+    public  ResponseEntity<byte[]> downloadVideo (@RequestParam("VideoId") Integer VideoId,@RequestParam("CodingId") Integer CodingId) {
+        unified_code_Video_Relation VideoRelation = new unified_code_Video_Relation();
+        VideoRelation.setVideoId(VideoId);
+        VideoRelation.setCodingId(CodingId);
+        byte[] videoBytes = codeInfoService.selectVideoByVideoRelation(VideoRelation);
+
+        // Set response headers for video
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentLength(videoBytes.length);
+        headers.setContentDispositionFormData("attachment", "video.mp4");
+
+        // Return the response entity with video bytes and headers
+        return ResponseEntity.ok().headers(headers).body(videoBytes);
+    }
+
 }

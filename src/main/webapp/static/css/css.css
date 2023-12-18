@@ -5,6 +5,64 @@
     flex-direction: column;
 
 }
+.export-button {
+    /* 添加你的样式规则 */
+    background-color: #4CAF50 !important;
+    color: white !important;
+    border: none; /* 无边框 */
+    padding: 10px 20px; /* 按钮内边距 */
+    text-align: center; /* 文字居中 */
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    font-family: "微软雅黑";
+    font-weight: bold;
+    cursor: pointer;
+    /* 添加其他样式规则，根据需要进行定制 */
+
+    /* 新增样式规则将按钮靠右 */
+    margin-left: auto;
+}
+
+.horizontal-container {
+    display: flex; /* 使用 Flexbox 布局 */
+    justify-content: space-between; /* 在容器内均匀分布子元素 */
+}
+
+.image-container {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    margin-right: 10px; /* 可以根据需要调整子元素之间的间距 */
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* CSS for Video Container */
+.video-container {
+    display: inline-block;
+    margin: 10px;
+}
+
+.video-poster {
+    max-width: 100%;
+    height: auto;
+}
+
+.download-link {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 5px 10px;
+    text-decoration: none;
+}
 
 .header{
     background-color:#242f42 ;
