@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/StyleForuploadSite.css">
 </head>
 <body>
-    <form method="post" action="${pageContext.request.contextPath}/test" enctype="multipart/form-data">
+    <form method="post" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
         <p>编码</p>
         <input type="text" id="Code" name="Code" />
         <p>文字描述</p>

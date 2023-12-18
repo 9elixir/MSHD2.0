@@ -186,7 +186,8 @@ public class ShowCodeController {
     public String postTest(Model model,@RequestParam("Code") String Code,@RequestParam("Describe") String Describe
             ,@RequestParam("imageFiles") List<MultipartFile> imageFiles) {
         //错误判断，请补充：
-
+        if (Code.length() < 36)
+            return "uploadSite";
         //插入文本编码
         unified_code code = new unified_code();
         code.setGeoCode(Code.substring(0,12)); //12位地理码
