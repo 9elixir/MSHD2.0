@@ -24,8 +24,9 @@
     <div class="sider" data-v-5bdb2cb5 >
       <ul class="lift_border">
         <a href="${pageContext.request.contextPath}/showCodes" class="a1">灾情显示</a>
-        <a href=" " class="a1">灾情可视化</a>
-        <a href="${pageContext.request.contextPath}/test" class="a1">灾情码上传</a>
+        <a href="${pageContext.request.contextPath}/testMap" class="a1">灾情可视化</a>
+        <a href="${pageContext.request.contextPath}/upload" class="a1">灾情码上传</a>
+        <a href="${pageContext.request.contextPath}/code_edit" class="a1" >代码编辑上传</a>
       </ul>
     </div>
     <div class="container">

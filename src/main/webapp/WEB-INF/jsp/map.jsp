@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>China Map</title>
     <!-- 引入 ECharts 库 -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+    <script src="${pageContext.request.contextPath}/static/JavaScripts/http_cdn.jsdelivr.net_npm_echarts@5.2.2_dist_echarts.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/css.css">
 </head>
 <body>
@@ -16,8 +16,9 @@
         <div class="sider" data-v-5bdb2cb5 >
             <ul class="lift_border">
                 <a href="${pageContext.request.contextPath}/showCodes" class="a1">灾情显示</a>
-                <a href=" " class="a1">灾情可视化</a>
+                <a href="${pageContext.request.contextPath}/testMap" class="a1">灾情可视化</a>
                 <a href="${pageContext.request.contextPath}/upload" class="a1">灾情码上传</a>
+                <a href="${pageContext.request.contextPath}/code_edit" class="a1" >代码编辑上传</a>
             </ul>
         </div>
         <div class="container">
@@ -25,7 +26,7 @@
                 中国地图
             </div>
             <div id="city-display"></div>
-            <div id="china-map" style="width: 800px; height: 600px;"></div>
+            <div id="china-map" style="width: 1000px; height: 800px;"></div>
         </div>
     </div>
 </div>
@@ -81,7 +82,7 @@
                             // 修改显示城市信息的元素内容
                             if (cityData) {
                                 // 修改显示城市名的元素内容
-                                cityDisplay.innerHTML = '<a href="${pageContext.request.contextPath}/lineChart/'+cityData.i+'">' + cityData.name + ': ' + cityData.value + '</a>';
+                                cityDisplay.innerHTML = '<a href="${pageContext.request.contextPath}/lineChart/'+cityData.i+'?year=2023'+'">' + cityData.name + ': ' + cityData.value + '</a>';
                             } else {
                                 cityDisplay.innerText = clickedCity + ': N/A';
                             }

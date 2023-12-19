@@ -452,26 +452,28 @@ public class ShowCodeController {
 
 
     @GetMapping("/lineChart/{i}")
-    public String generateLineChart(Model model,@PathVariable Integer i) {
+    public String generateLineChart(Model model,@PathVariable Integer i,@RequestParam("year") Integer year) {
         geoCodeInfoService.init();
-        //geoCodeInfoService.printOut();
-        //首先获取当前的时间
-        String cur = timeService.getCurrentFormattedDateTime();
-        //首先假设是第0个编号
-        i = 0;
+        //目标的年份
+        model.addAttribute("i",i);
+        model.addAttribute("year",year);
+        String cur = year.toString()+"1220000000";
         String city = geoCodeInfoService.getCity(i);
+        model.addAttribute("city",city);
         System.out.println(city);
         geo_code_info firstCode = geoCodeInfoService.getFirstGeoCode(i);
         geo_code_info lastCode = geoCodeInfoService.getLastGeoCode(i);
-
         // Create dataset
-        XYSeries series = new XYSeries(city);
+        XYSeries series = new XYSeries("Data");
+        int total=0;
         for (int month = 12;month >= 1;month --) {
             List<unified_code> list = codeInfoService.getCodeListByCityAndTime(firstCode.getGeoCode(),lastCode.getGeoCode(),
                     timeService.getCurrentMonth(cur),timeService.getNextMonth(cur));
             cur = timeService.getPreviousMonth(cur);
             series.add(month, list.size());
+            total+=list.size();
         }
+        model.addAttribute("total",total);
         XYSeriesCollection dataset = new XYSeriesCollection(series);
 
         // Create chart

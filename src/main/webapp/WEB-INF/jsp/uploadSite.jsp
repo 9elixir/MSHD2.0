@@ -10,8 +10,36 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/StyleForuploadSite.css">
+    <style>
+        ul {
+            list-style: none;
+            display: flex;
+            padding: 0;
+        }
+
+        form {
+            margin-right: 20px; /* 调整按钮之间的间距 */
+        }
+    </style>
 </head>
 <body>
+
+<div>
+    <ul>
+        <form action="${pageContext.request.contextPath}/showCodes" method="get">
+            <input class="export-button" type="submit" value="灾情显示" />
+        </form>
+        <form action="${pageContext.request.contextPath}/testMap" method="get">
+            <input class="export-button" type="submit" value="灾情可视化" />
+        </form>
+        <form action="${pageContext.request.contextPath}/upload" method="get">
+            <input class="export-button" type="submit" value="灾情码上传" />
+        </form>
+        <form action="${pageContext.request.contextPath}/code_edit" method="get">
+            <input class="export-button" type="submit" value="代码编辑上传" />
+        </form>
+    </ul>
+
     <form method="post" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
         <p>编码</p>
         <input type="text" id="Code" name="Code" />
@@ -27,9 +55,8 @@
         <button type="button" class="uploadbutton" onclick="fillCodeAndDescription()">转换为Code</button>
 
         <input class="uploadbutton" type="submit" value="插入" />
-        <a href="${pageContext.request.contextPath}/showCodes" class="a3">灾情显示</a>
     </form>
-
+</div>
 
     <ul class="bg-squares">
         <li></li>
@@ -43,6 +70,7 @@
         <li></li>
         <li></li>
     </ul>
-    <script src="${pageContext.request.contextPath}/static/JavaScripts/CodeJsonizer.js"></script>
+
 </body>
+<script src="${pageContext.request.contextPath}/static/JavaScripts/CodeJsonizer.js"></script>
 </html>
