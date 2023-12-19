@@ -206,4 +206,20 @@ imageFiles:hover {
     resize: none;
 }
 
+.a3{
+    display:inline-block;
+    text-decoration: none;
+    color:#eadddd;
+    width:110px;
+    height:80px;
+    text-align: center;
+    padding-bottom: 0;
+    line-height: 1.5;
 
+}
+.a1:hover{
+    color:#eeecec;
+}
+.a1:active{
+    color:cyan;
+}

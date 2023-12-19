@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.image.BufferedImage;
+import java.nio.file.Files;
 import java.util.*;
 
 import java.io.*;
@@ -33,10 +34,32 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringReader;
+
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.util.Base64;
+
 
 
 @Controller
@@ -256,6 +279,104 @@ public class ShowCodeController {
         //添加返回信息，请补充
         return "uploadSite";
     }
+
+
+
+    @GetMapping("/code_edit")
+    public String showCodeEditPage() {
+        return "codeEdit"; // 返回编辑XML页面的视图名
+    }
+
+    @PostMapping("/code_edit")
+    public String postTest(Model model, @RequestParam("xmlData") String xmlData) {
+        try {
+            // 创建一个DOM解析器工厂
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+            // 创建DOM解析器
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            // 将XML数据作为输入源进行解析
+            InputSource inputSource = new InputSource(new StringReader(xmlData));
+
+            // 解析XML数据，获得Document对象
+            Document document = builder.parse(inputSource);
+
+            // 获取根元素
+            Element rootElement = document.getDocumentElement();
+
+            // 获取Code元素的值
+            String codeValue = getElementValue(rootElement, "Code");
+            System.out.println("Code value: " + codeValue);
+            // 获取Description元素的值
+            String descriptionValue = getElementValue(rootElement, "Description");
+
+            // 错误判断，请补充
+            if (codeValue == null || codeValue.length() < 36) {
+                return "codeEdit";
+            }
+
+            // 插入文本编码
+            unified_code code = new unified_code();
+            code.setGeoCode(codeValue.substring(0, 12)); // 12位地理码
+            code.setTimeCode(codeValue.substring(12, 26)); // 14位时间码
+            code.setSourceCode(codeValue.substring(26, 29)); // 3位来源码
+            code.setCarrierCode(codeValue.substring(29, 30)); // 1位载体码
+            code.setDisasterCode(codeValue.substring(30, 36)); // 6位指标码
+            code.setDescription(descriptionValue); // 描述
+            codeInfoService.insertCode(code); // 插入文本编码
+
+            // 解析图片、音频和视频
+            NodeList imageNodes = rootElement.getElementsByTagName("ImageFile");
+            if (imageNodes != null && imageNodes.getLength() > 0) {
+                for (int i = 0; i < imageNodes.getLength(); i++) {
+                    Element imageElement = (Element) imageNodes.item(i);
+                    String imageBase64 = imageElement.getTextContent();
+                    byte[] imageData = Base64.getDecoder().decode(imageBase64);
+                    codeInfoService.insertPic(code, imageData); // 插入图片
+                }
+            }
+
+            NodeList audioNodes = rootElement.getElementsByTagName("AudioFile");
+            if (audioNodes != null && audioNodes.getLength() > 0) {
+                for (int i = 0; i < audioNodes.getLength(); i++) {
+                    Element audioElement = (Element) audioNodes.item(i);
+                    String audioBase64 = audioElement.getTextContent();
+                    byte[] audioData = Base64.getDecoder().decode(audioBase64);
+                    codeInfoService.insertAudio(code, audioData); // 插入音频
+                }
+            }
+
+            NodeList videoNodes = rootElement.getElementsByTagName("VideoFile");
+            if (videoNodes != null && videoNodes.getLength() > 0) {
+                for (int i = 0; i < videoNodes.getLength(); i++) {
+                    Element videoElement = (Element) videoNodes.item(i);
+                    String videoBase64 = videoElement.getTextContent();
+                    byte[] videoData = Base64.getDecoder().decode(videoBase64);
+                    codeInfoService.insertVideo(code, videoData); // 插入视频
+                }
+            }
+
+            // 添加返回信息，请补充
+            model.addAttribute("message", "XML解析成功并上传");
+            return "codeEdit";
+        } catch (Exception e) {
+            // 处理解析错误
+            e.printStackTrace();
+            return "codeEdit";
+        }
+    }
+
+    // 从指定的元素中获取子元素的值
+    private String getElementValue(Element element, String tagName) {
+        NodeList nodeList = element.getElementsByTagName(tagName);
+        if (nodeList != null && nodeList.getLength() > 0) {
+            Element subElement = (Element) nodeList.item(0);
+            return subElement.getTextContent();
+        }
+        return null;
+    }
+
 
     @GetMapping("/exportCSV")
     public void exportCSV(HttpServletResponse response) throws IOException {
