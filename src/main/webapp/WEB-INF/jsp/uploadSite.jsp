@@ -23,10 +23,10 @@
         <textarea id="jsonTextarea" name="jsonTextarea" rows="10" cols="50" placeholder="JSON输入/显示框"></textarea>
 
         <!-- 转换按钮 -->
-        <button onclick="convertToJson()">转换为JSON</button>
-        <button onclick="convertToCode()">转换为Code</button>
+        <button type="button" class="uploadbutton" onclick="fillJsonTextArea()">转换为JSON</button>
+        <button type="button" class="uploadbutton" onclick="fillCodeAndDescription()">转换为Code</button>
 
-        <input id="button" type="submit" value="插入" />
+        <input class="uploadbutton" type="submit" value="插入" />
     </form>
 
 
@@ -42,5 +42,6 @@
         <li></li>
         <li></li>
     </ul>
+    <script src="${pageContext.request.contextPath}/static/JavaScripts/CodeJsonizer.js"></script>
 </body>
 </html>
