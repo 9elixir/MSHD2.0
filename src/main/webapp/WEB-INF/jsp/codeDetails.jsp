@@ -40,6 +40,7 @@
           <th>来源码解析</th>
           <th>载体码解析</th>
           <th>灾情情况</th>
+          <th>导出json</th>
         </tr>
         <tr>
           <td>${code.getGeoCode()}${code.getTimeCode()}${code.getSourceCode()}${code.getCarrierCode()}${code.getDisasterCode()}</td>
@@ -48,6 +49,11 @@
           <td>来自:${SourceCode.getSubCategory()}，属于${SourceCode.getMainCategory()}</td>
           <td>${CarrierCode.getCarrierForm()}</td>
           <td>${DisasterCode.getSubCategory()}:${DisasterCode.getDisasterIndicators()}的情况是${code.getDescription()}</td>
+          <td>
+            <form action="<%=request.getContextPath()%>/exportJson/${code.getCodingId()}" method="get">
+              <input class="export-button" type="submit" value="导出" />
+            </form>
+          </td>
         </tr>
       </table>
 

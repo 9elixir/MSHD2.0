@@ -2,6 +2,7 @@ package com.qiu.controller.lyq;
 
 import com.opencsv.CSVWriter;
 import com.qiu.Rook.CityMap;
+import com.qiu.Rook.CodeJsonizer;
 import com.qiu.Rook.MapGetter;
 import com.qiu.Rook.MapData;
 import com.qiu.pojo.*;
@@ -400,6 +401,24 @@ public class ShowCodeController {
         //提供下载链接
         ServletOutputStream outputStream = response.getOutputStream();
         outputStream.write(writer.toString().getBytes());
+        outputStream.flush();
+    }
+    @GetMapping("/exportJson/{id}")
+    public void exportJson(HttpServletResponse response,@PathVariable Integer id) throws IOException {
+        unified_code code = unifiedCodeService.selectByPrimaryKey(id);
+        String codeString = code.getGeoCode()+code.getTimeCode()+code.getSourceCode()+code.getCarrierCode()+code.getDisasterCode();
+
+        // 转换为纯文本格式的字符串
+        StringBuilder textContent = new StringBuilder();
+        textContent.append(CodeJsonizer.codeToJson(codeString,code.getDescription()));
+
+        // 创建文件并写入文本数据
+        response.setContentType("text/plain");
+        response.setHeader("Content-Disposition", "attachment; filename=code.json");
+
+        // 提供下载链接
+        ServletOutputStream outputStream = response.getOutputStream();
+        outputStream.write(textContent.toString().getBytes());
         outputStream.flush();
     }
 
