@@ -20,6 +20,8 @@ public interface GeoCodeInfoService {
 
     geo_code_info selectByPrimaryKey(String geoCode);
 
+    List<geo_code_info> selectByCity(String city);
+
     int updateByExampleSelective(geo_code_info record, geo_code_infoExample example);
 
     int updateByExample(geo_code_info record, geo_code_infoExample example);
@@ -27,4 +29,18 @@ public interface GeoCodeInfoService {
     int updateByPrimaryKeySelective(geo_code_info record);
 
     int updateByPrimaryKey(geo_code_info record);
+
+    public List<geo_code_info> getAllGeoCodeInfo();
+    List<String> getAllCities();
+
+    geo_code_info minGeo(List<geo_code_info> list);
+    geo_code_info maxGeo(List<geo_code_info> list);
+
+    public void init();
+    public void printOut();
+
+    public String getCity(int i);
+    public geo_code_info getFirstGeoCode(int i);
+    public geo_code_info getLastGeoCode(int i);
+
 }

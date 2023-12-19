@@ -5,8 +5,9 @@ import com.qiu.Rook.MapGetter;
 import com.qiu.Rook.MapData;
 import com.qiu.pojo.*;
 import com.qiu.service.CodeInfoService;
+import com.qiu.service.GeoCodeInfoService;
+import com.qiu.service.TimeService;
 import com.qiu.service.UnifiedCodeService;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -14,30 +15,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 import java.io.*;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,6 +61,14 @@ public class ShowCodeController {
     @Qualifier("CodeInfoServiceImpl")
     private CodeInfoService codeInfoService;
 
+    @Autowired
+    @Qualifier("TimeServiceImpl")
+    private TimeService timeService;
+
+    @Autowired
+    @Qualifier("GeoCodeInfoServiceImpl")
+    private GeoCodeInfoService geoCodeInfoService;
+
     @GetMapping("/showCodes")
     public String showCodes(Model model) {
         // Retrieve data from the Unified Codes service
@@ -73,8 +79,6 @@ public class ShowCodeController {
         // Return the name of the JSP page to render
         return "showCode";
     }
-
-
     @PostMapping("/showCodes")
     public String queryCodes(Model model, @RequestParam("Code") String queryCode) {
         // Handle the query here
@@ -84,20 +88,6 @@ public class ShowCodeController {
 
         return "showCode";
     }
-
-
-    public static String convertTimeCodeToChineseDescription(String timeCode) {
-        try {
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-            Date date = inputFormat.parse(timeCode);
-            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-            return outputFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return "无效的时间码";
-        }
-    }
-
     @GetMapping("/DropCode/{id}")
     public String DropCodeById(@PathVariable Integer id, Model model){
         // 使用 codeService 或其他方式获取指定 id 的 Code 对象
@@ -129,7 +119,7 @@ public class ShowCodeController {
         model.addAttribute("CarrierCode",CarrierCode);
         model.addAttribute("DisasterCode",DisasterCode);
         model.addAttribute("GeoCode",GeoCode);
-        model.addAttribute("Time",convertTimeCodeToChineseDescription(code.getTimeCode()));
+        model.addAttribute("Time",timeService.convertTimeCodeToChineseDescription(code.getTimeCode()));
         model.addAttribute("SourceCode",SourceCode);
 
         //以下为地图部分
@@ -140,7 +130,6 @@ public class ShowCodeController {
         // 返回显示 Code 信息的 JSP 页面
         return "codeDetails"; // 这里的 "codeDetails" 是你要展示信息的 JSP 页面
     }
-
     @RequestMapping("/displayImage/{id}")
     public String displayImage(@PathVariable Integer id,Model model) throws IOException {
         //获取对应id的code
@@ -164,7 +153,6 @@ public class ShowCodeController {
 
         return "imagePage";
     }
-
     @RequestMapping("/displayVideo/{id}")
     public String showVideo(@PathVariable Integer id, Model model) {
         //获取对应id的code
@@ -186,7 +174,6 @@ public class ShowCodeController {
         model.addAttribute("videoData", base64List);
         return "videoPage"; // 这里假设你的 JSP 页面名称为 videoPage.jsp
     }
-
     @GetMapping("/polymerCode/{id}")
     public String getAuxiliaryCodeById(@PathVariable Integer id, Model model) {
         // 使用 codeService 或其他方式获取指定 id 的 Code 对象
@@ -200,7 +187,7 @@ public class ShowCodeController {
         model.addAttribute("code_2",code);//来不及修改了，应该换一种形式编写;
         model.addAttribute("code",code.getGeoCode()+code.getTimeCode()+code.getSourceCode()+code.getCarrierCode()+code.getDisasterCode());
         model.addAttribute("geo",GeoCode.getProvince()+GeoCode.getCity()+GeoCode.getCounty()+GeoCode.getTown()+GeoCode.getVillage());
-        model.addAttribute("Time",convertTimeCodeToChineseDescription(code.getTimeCode()));
+        model.addAttribute("Time",timeService.convertTimeCodeToChineseDescription(code.getTimeCode()));
 
         //查询辅助码
         List<unified_code> auxiliaryCodeList =codeInfoService.getAuxiliaryCodeListByMainCode(code);
@@ -435,6 +422,62 @@ public class ShowCodeController {
 
         // Return the response entity with video bytes and headers
         return ResponseEntity.ok().headers(headers).body(videoBytes);
+    }
+
+    public static String convertImageToBase64(BufferedImage image) {
+        String base64String = null;
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", bos);
+            byte[] imageBytes = bos.toByteArray();
+            base64String = Base64.getEncoder().encodeToString(imageBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return base64String;
+    }
+
+
+    @GetMapping("/lineChart")
+    public String generateLineChart(Model model) {
+        geoCodeInfoService.init();
+        //geoCodeInfoService.printOut();
+        //首先获取当前的时间
+        String cur = timeService.getCurrentFormattedDateTime();
+        //首先假设是第0个编号
+        int i = 0;
+        String city = geoCodeInfoService.getCity(i);
+        System.out.println(city);
+        geo_code_info firstCode = geoCodeInfoService.getFirstGeoCode(i);
+        geo_code_info lastCode = geoCodeInfoService.getLastGeoCode(i);
+
+        // Create dataset
+        XYSeries series = new XYSeries(city);
+        for (int month = 12;month >= 1;month --) {
+            List<unified_code> list = codeInfoService.getCodeListByCityAndTime(firstCode.getGeoCode(),lastCode.getGeoCode(),
+                    timeService.getCurrentMonth(cur),timeService.getNextMonth(cur));
+            cur = timeService.getPreviousMonth(cur);
+            series.add(month, list.size());
+        }
+        XYSeriesCollection dataset = new XYSeriesCollection(series);
+
+        // Create chart
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "The disaster situation in the local area in the past year",
+                "Months",
+                "Disaster situation",
+                dataset
+        );
+
+        // Convert chart to BufferedImage
+        BufferedImage bufferedImage = chart.createBufferedImage(600, 400);
+
+        // Convert BufferedImage to Base64 string
+        String base64LineChart = convertImageToBase64(bufferedImage);
+
+        // Add Base64 string to model
+        model.addAttribute("lineChartBase64", base64LineChart);
+        return "lineChart";
     }
 
 }

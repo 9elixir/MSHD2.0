@@ -1,9 +1,4 @@
-* {
-    /* 初始化 */
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+
 
 body {
     height: 100vh;
@@ -42,7 +37,7 @@ form {
     transition: opacity 0.5s;
 }
 
-#Code,#Describe {
+#Code {
     outline: none;
     border: none;
     border-radius: 3px;
@@ -55,6 +50,8 @@ form {
     background-color: rgba(255, 255, 255, 0.2);
     transition: 0.25s;
 }
+
+
 
 #Code,#Describe::placeholder {
     color: #fff;
@@ -200,25 +197,13 @@ imageFiles:hover {
     }
 }
 
-#button {
+.uploadbutton {
     width: 250px;
     height: 40px;
 }
 
-.a1{//按钮样式
-display:inline-block;
-    text-decoration: none;
-    color:#eadddd;
-    width:110px;
-    height:80px;
-    text-align: center;
-    padding-bottom: 0;
-    line-height: 1.5;
+#jsonTextarea{
+    resize: none;
+}
 
-}
-.a1:hover{
-    color:#eeecec;
-}
-.a1:active{
-    color:cyan;
-}
+
