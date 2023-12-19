@@ -27,6 +27,7 @@
         <button type="button" class="uploadbutton" onclick="fillCodeAndDescription()">转换为Code</button>
 
         <input class="uploadbutton" type="submit" value="插入" />
+        <a href="${pageContext.request.contextPath}/showCodes" class="a3">灾情显示</a>
     </form>
 
 

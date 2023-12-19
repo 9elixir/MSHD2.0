@@ -26,7 +26,7 @@
    </form>
    <div id="messageDiv" th:text="${message}"></div>
    <input type="file" id="xml-file" accept=".xml">
-   <a href="${pageContext.request.contextPath}/showCodes" class="a1">返回</a>
+   <a href="${pageContext.request.contextPath}/showCodes" class="a2">返回</a>
 
 
 </body>

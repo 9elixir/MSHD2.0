@@ -78,4 +78,6 @@
   map.enableScrollWheelZoom(true);
   var marker = new BMapGL.Marker(point);
   map.addOverlay(marker);
+
+
 </script>
