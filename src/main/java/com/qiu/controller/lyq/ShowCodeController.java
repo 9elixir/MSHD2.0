@@ -1,6 +1,7 @@
 package com.qiu.controller.lyq;
 
 import com.opencsv.CSVWriter;
+import com.qiu.Rook.CityMap;
 import com.qiu.Rook.MapGetter;
 import com.qiu.Rook.MapData;
 import com.qiu.pojo.*;
@@ -329,14 +330,14 @@ public class ShowCodeController {
     }
 
 
-    @GetMapping("/lineChart")
-    public String generateLineChart(Model model) {
+    @GetMapping("/lineChart/{i}")
+    public String generateLineChart(Model model,@PathVariable Integer i) {
         geoCodeInfoService.init();
         //geoCodeInfoService.printOut();
         //首先获取当前的时间
         String cur = timeService.getCurrentFormattedDateTime();
         //首先假设是第0个编号
-        int i = 0;
+        i = 0;
         String city = geoCodeInfoService.getCity(i);
         System.out.println(city);
         geo_code_info firstCode = geoCodeInfoService.getFirstGeoCode(i);
@@ -371,4 +372,8 @@ public class ShowCodeController {
         return "lineChart";
     }
 
+    @GetMapping("/testMap")
+    public String testMap(Model model){
+        return "map";
+    }
 }

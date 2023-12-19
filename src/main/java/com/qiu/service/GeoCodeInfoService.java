@@ -42,5 +42,6 @@ public interface GeoCodeInfoService {
     public String getCity(int i);
     public geo_code_info getFirstGeoCode(int i);
     public geo_code_info getLastGeoCode(int i);
+    public int getCities();
 
 }

@@ -300,4 +300,13 @@ public class CodeInfoServiceImpl implements CodeInfoService{
         criteria.andTimeCodeLessThan(nextTime);
         return UnifiedCodeMapper.selectByExample(example);
     }
+
+    @Override
+    public List<unified_code> getCodeListByCity(String firstCode,String lastCode){
+        unified_codeExample example = new unified_codeExample();
+        unified_codeExample.Criteria criteria = example.createCriteria();
+        criteria.andGeoCodeGreaterThanOrEqualTo(firstCode);
+        criteria.andGeoCodeLessThanOrEqualTo(lastCode);
+        return UnifiedCodeMapper.selectByExample(example);
+    }
 }

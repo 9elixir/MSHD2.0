@@ -37,4 +37,5 @@ public interface CodeInfoService{
     int DropVideoRelation(unified_code_Video_Relation videoRelation);
 
     public List<unified_code> getCodeListByCityAndTime(String firstCode,String lastCode,String curTime,String nextTime);
+    public List<unified_code> getCodeListByCity(String firstCode,String lastCode);
 }

@@ -150,6 +150,10 @@ public class GeoCodeInfoServiceImpl implements GeoCodeInfoService {
             System.out.println(lastGeoCode.get(i));
         }
     }
+    @Override
+    public int getCities(){
+        return cityTable.size();
+    }
 
     @Override
     public String getCity(int i){
