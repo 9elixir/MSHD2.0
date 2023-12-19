@@ -16,8 +16,16 @@
         <p>编码</p>
         <input type="text" id="Code" name="Code" />
         <p>文字描述</p>
-        <input type="text" id="Describe" name="Describe"/>
+        <input type="text" id="Describe" name="Describe" />
         <input type="file" name="imageFiles" multiple>
+
+        <!-- JSON输入/显示框 -->
+        <textarea id="jsonTextarea" name="jsonTextarea" rows="10" cols="50" placeholder="JSON输入/显示框"></textarea>
+
+        <!-- 转换按钮 -->
+        <button onclick="convertToJson()">转换为JSON</button>
+        <button onclick="convertToCode()">转换为Code</button>
+
         <input id="button" type="submit" value="插入" />
     </form>
 
