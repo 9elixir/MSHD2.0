@@ -48,6 +48,9 @@
         <property name="videoRelationMapper" ref="unified_code_Video_RelationMapper"/>
     </bean>
 
+    <bean id="TimeServiceImpl" class="com.qiu.service.TimeServiceImpl">
+    </bean>
+
 
     <!--3.声明式事务配置-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
