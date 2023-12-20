@@ -130,16 +130,107 @@ public class GeoCodeInfoServiceImpl implements GeoCodeInfoService {
     public void init() {
         if (flag) return ;
         flag=true;
+        cityTable = new ArrayList<>();
         firstGeoCode = new ArrayList<>();
         lastGeoCode = new ArrayList<>();
+        cityTable.add("北京市");
+        firstGeoCode.add(selectByPrimaryKey("110101001001"));
+        lastGeoCode.add(selectByPrimaryKey("110119203214"));
+        cityTable.add("天津市");
+        firstGeoCode.add(selectByPrimaryKey("120101001001"));
+        lastGeoCode.add(selectByPrimaryKey("120119401498"));
+        cityTable.add("河北省");
+        firstGeoCode.add(selectByPrimaryKey("130102001001"));
+        lastGeoCode.add(selectByPrimaryKey("131182403498"));
+        cityTable.add("山西省");
+        firstGeoCode.add(selectByPrimaryKey("140105001001"));
+        lastGeoCode.add(selectByPrimaryKey("141182110215"));
+        cityTable.add("内蒙古自治区");
+        firstGeoCode.add(selectByPrimaryKey("150102001001"));
+        lastGeoCode.add(selectByPrimaryKey("152971100201"));
+        cityTable.add("辽宁省");
+        firstGeoCode.add(selectByPrimaryKey("210102001002"));
+        lastGeoCode.add(selectByPrimaryKey("211481400498"));
+        cityTable.add("吉林省");
+        firstGeoCode.add(selectByPrimaryKey("220102001001"));
+        lastGeoCode.add(selectByPrimaryKey("222426402507"));
+        cityTable.add("黑龙江省");
+        firstGeoCode.add(selectByPrimaryKey("230102001001"));
+        lastGeoCode.add(selectByPrimaryKey("232764103001"));
+        cityTable.add("上海市");
+        firstGeoCode.add(selectByPrimaryKey("310101002001"));
+        lastGeoCode.add(selectByPrimaryKey("310151501498"));
+        cityTable.add("江苏省");
+        firstGeoCode.add(selectByPrimaryKey("320102002001"));
+        lastGeoCode.add(selectByPrimaryKey("321371400007"));
+        cityTable.add("浙江省");
+        firstGeoCode.add(selectByPrimaryKey("330102001051"));
+        lastGeoCode.add(selectByPrimaryKey("331181207241"));
+        cityTable.add("安徽省");
+        firstGeoCode.add(selectByPrimaryKey("340102001001"));
+        lastGeoCode.add(selectByPrimaryKey("341882400498"));
+        cityTable.add("福建省");
+        firstGeoCode.add(selectByPrimaryKey("350102001001"));
+        lastGeoCode.add(selectByPrimaryKey("350982500206"));
+        cityTable.add("江西省");
+        firstGeoCode.add(selectByPrimaryKey("360102002001"));
+        lastGeoCode.add(selectByPrimaryKey("361181205205"));
+        cityTable.add("山东省");
+        firstGeoCode.add(selectByPrimaryKey("370102001002"));
+        lastGeoCode.add(selectByPrimaryKey("371772108276"));
+        cityTable.add("河南省");
+        firstGeoCode.add(selectByPrimaryKey("410102001002"));
+        lastGeoCode.add(selectByPrimaryKey("419001110238"));
+        cityTable.add("湖北省");
+        firstGeoCode.add(selectByPrimaryKey("420102002003"));
+        lastGeoCode.add(selectByPrimaryKey("429021203205"));
+        cityTable.add("湖南省");
+        firstGeoCode.add(selectByPrimaryKey("430102001001"));
+        lastGeoCode.add(selectByPrimaryKey("433130237215"));
+        cityTable.add("广西壮族自治区");
+        firstGeoCode.add(selectByPrimaryKey("450102001003"));
+        lastGeoCode.add(selectByPrimaryKey("451481400498"));
+        cityTable.add("重庆市");
+        firstGeoCode.add(selectByPrimaryKey("500101001001"));
+        lastGeoCode.add(selectByPrimaryKey("500243228207"));
+        cityTable.add("四川省");
+        firstGeoCode.add(selectByPrimaryKey("510104017001"));
+        lastGeoCode.add(selectByPrimaryKey("513437241205"));
+        cityTable.add("贵州省");
+        firstGeoCode.add(selectByPrimaryKey("520102016001"));
+        lastGeoCode.add(selectByPrimaryKey("522732116285"));
+        cityTable.add("云南省");
+        firstGeoCode.add(selectByPrimaryKey("530102001001"));
+        lastGeoCode.add(selectByPrimaryKey("533423207209"));
+        cityTable.add("西藏自治区");
+        firstGeoCode.add(selectByPrimaryKey("540102002001"));
+        lastGeoCode.add(selectByPrimaryKey("542527203204"));
+        cityTable.add("陕西省");
+        firstGeoCode.add(selectByPrimaryKey("610102001001"));
+        lastGeoCode.add(selectByPrimaryKey("611026110221"));
+        cityTable.add("甘肃省");
+        firstGeoCode.add(selectByPrimaryKey("620102001001"));
+        lastGeoCode.add(selectByPrimaryKey("623027208202"));
+        cityTable.add("青海省");
+        firstGeoCode.add(selectByPrimaryKey("630102001001"));
+        lastGeoCode.add(selectByPrimaryKey("632857101001"));
+        cityTable.add("宁夏回族自治区");
+        firstGeoCode.add(selectByPrimaryKey("640104001002"));
+        lastGeoCode.add(selectByPrimaryKey("640522406498"));
+        cityTable.add("新疆维吾尔自治区");
+        firstGeoCode.add(selectByPrimaryKey("650102002002"));
+        lastGeoCode.add(selectByPrimaryKey("659011502512"));
 
-        cityTable = getAllCities();
-        for (String city : cityTable) {
-            List<geo_code_info> list = selectByCity(city);
-            firstGeoCode.add(minGeo(list));
-            lastGeoCode.add(maxGeo(list));
-        }
-        // 可以继续添加其他映射关系
+//         cityTable = getAllCities();
+//         for (String city : cityTable) {
+//            List<geo_code_info> list = selectByCity(city);
+//            firstGeoCode.add(minGeo(list));
+//            lastGeoCode.add(maxGeo(list));
+//            System.out.println("cityTable.add(" +"\""+city+"\""+");");
+//            System.out.println("firstGeoCode.add(selectByPrimaryKey(" +"\""+minGeo(list).getGeoCode()+"\""+"));");
+//            System.out.println("lastGeoCode.add(selectByPrimaryKey(" +"\""+maxGeo(list).getGeoCode()+"\""+"));");
+//        }
+
     }
 
     @Override

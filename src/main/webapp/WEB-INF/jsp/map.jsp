@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>China Map</title>
-    <!-- 引入 ECharts 库 -->
-    <script src="${pageContext.request.contextPath}/static/JavaScripts/http_cdn.jsdelivr.net_npm_echarts@5.2.2_dist_echarts.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/css.css">
 </head>
 <body>
@@ -31,6 +29,8 @@
     </div>
 </div>
 </body>
+<!-- 引入 ECharts 库 -->
+<script src="${pageContext.request.contextPath}/static/JavaScripts/echarts.js"></script>
 <!-- 引入 JavaScript 文件 -->
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {

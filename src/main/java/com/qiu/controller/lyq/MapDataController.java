@@ -37,6 +37,7 @@ public class MapDataController {
             geo_code_info lastCode = geoCodeInfoService.getLastGeoCode(i);
             List<unified_code> list = codeInfoService.getCodeListByCity(firstCode.getGeoCode(), lastCode.getGeoCode());
             cityMap.add(new CityMap(city, list.size(),i));
+            System.out.println(city+" "+list.size());
         }
         return cityMap;
     }
